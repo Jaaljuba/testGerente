@@ -28,7 +28,7 @@ const Campania = () => {
             const respuesta = await axios.post(endPoint, usuario)
 
             console.log(respuesta);
-    
+
             return respuesta.data
         } catch (error) {
             throw error
@@ -80,13 +80,11 @@ const Campania = () => {
                     <h2 className="text-left mt-5 mb-5 text-primary">Campañas</h2>
                 </header>
                 <div className="">
-
                     {/* Table */}
 
                     <table className="w-100">
                         {/* Table header */}
-                        
-                        <div>
+
                         <thead className="border-bottom">
                             <tr>
                                 <th className="">
@@ -105,9 +103,7 @@ const Campania = () => {
                                     <div className="text-center ">&nbsp;</div>
                                 </th>
                             </tr>
-
                         </thead>
-                        </div>
 
                         {/* Table body */}
                         <tbody className="">
@@ -155,10 +151,8 @@ const Campania = () => {
                                             </div>
                                         </td>
                                     </tr>
-
                                 ))
                             }
-
                         </tbody>
                     </table>
 
