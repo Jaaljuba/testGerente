@@ -1,0 +1,15 @@
+.circle{
+    width: 80px !important; 
+    height: 80px !important;
+    border: 1px solid gray;
+    background-color: aliceblue;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.bg-image{
+
+    background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+    height: 100vh;
+}
