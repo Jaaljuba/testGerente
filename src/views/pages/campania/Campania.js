@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from "react";
 
@@ -9,25 +9,37 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Campania = () => {
 
+    
     let url = "http://152.200.146.226:9002"
 
     const [data, setData] = useState([]);
     // const [key, setToken] = useState()
 
+    //Se guarda el token, esto para poder guardarlo en el localstorage
+    const [tok, setTok] = useState();
+
+    let usuario = {
+        username: '227282',
+        password: 'R@f1t4'
+    }
+
+    
     const getToken = async () => {
         console.log("Entro a getToken...");
-
+        /*
         let usuario = {
             username: '227282',
             password: 'R@f1t4'
         }
+        */
         let endPoint = url + "/api/getKey"
         console.log(endPoint)
 
         try {
             const respuesta = await axios.post(endPoint, usuario)
 
-            console.log(respuesta);
+            setTok(respuesta)
+            console.log(tok);
 
             return respuesta.data
         } catch (error) {
@@ -50,6 +62,11 @@ const Campania = () => {
     const getData = async () => {
         const { token } = await getToken()
 
+        //Guardanod token en local storage
+        window.localStorage.setItem(
+            'sesion', JSON.stringify(tok) //Guardamos el token
+        )
+
         console.log(token);
 
         const headers = {
@@ -71,6 +88,37 @@ const Campania = () => {
         // getToken()
         getData()
     }, []);
+
+    //Se pueden tener tantos useEffect como queramos
+    //Este efecto es para leer el local storage
+
+    useEffect(() => {
+        const logged = window.localStorage.getItem('token')
+
+
+        //Si hay un token ponerlo!
+        if(logged){
+            const toke = JSON.parse(logged)
+
+            //setTok(toke) 
+            //Poner el token que le falte
+        }
+
+    }, []);    
+
+    
+
+    /*
+    let url = "http://152.200.146.226:9002"
+
+    async function login(){
+
+        const {data} = await Axios.post(url),{
+            
+        }
+    }
+    */
+
 
 
     return (
