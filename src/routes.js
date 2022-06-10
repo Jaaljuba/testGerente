@@ -1,14 +1,16 @@
 import React from 'react';
 
+
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
+
+const Campania = React.lazy(() => import ('./views/campania/Campania'));
 
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/base/cards/Cards'));
 const Carousels = React.lazy(() => import('./views/base/carousels/Carousels'));
 const Collapses = React.lazy(() => import('./views/base/collapses/Collapses'));
 const BasicForms = React.lazy(() => import('./views/base/forms/BasicForms'));
-
 const Jumbotrons = React.lazy(() => import('./views/base/jumbotrons/Jumbotrons'));
 const ListGroups = React.lazy(() => import('./views/base/list-groups/ListGroups'));
 const Navbars = React.lazy(() => import('./views/base/navbars/Navbars'));
@@ -58,7 +60,11 @@ const routes = [
   { path: '/base/popovers', name: 'Popovers', component: Popovers },
   { path: '/base/progress-bar', name: 'Progress Bar', component: ProgressBar },
   { path: '/base/switches', name: 'Switches', component: Switches },
+
   { path: '/base/tables', name: 'Tables', component: Tables },
+  
+  { path: '/archivo/campanias', name: 'Campanias', component: Campania },
+
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
   { path: '/base/tooltips', name: 'Tooltips', component: Tooltips },
   { path: '/buttons', name: 'Buttons', component: Buttons, exact: true },
@@ -72,13 +78,17 @@ const routes = [
   { path: '/icons/flags', name: 'Flags', component: Flags },
   { path: '/icons/brands', name: 'Brands', component: Brands },
   { path: '/notifications', name: 'Notifications', component: Alerts, exact: true },
+
   { path: '/notifications/alerts', name: 'Alerts', component: Alerts },
+
   { path: '/notifications/badges', name: 'Badges', component: Badges },
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User }
+  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+
+  { path: '/campania', exact: true, name: 'campania', component: Campania }
 ];
 
 export default routes;

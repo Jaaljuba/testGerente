@@ -14,17 +14,17 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Theme']
+    _children: ['Archivo']
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Colors',
-    to: '/theme/colors',
+    name: 'Campañas',
+    to: '/archivo/campanias',
     icon: 'cil-drop',
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Typography',
+    name: 'Segundo',
     to: '/theme/typography',
     icon: 'cil-pencil',
   },

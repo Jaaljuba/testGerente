@@ -1,76 +1,23 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { Redirect } from 'react-router-dom'
 import axios, { Axios } from 'axios';
 import moment from 'moment';
-import { useEffect, useState } from "react";
+import { CSpinner } from "@coreui/react";
 
-import '../../../../src/css/campanias.css'
+// import '../src/css/campanias.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 const Campania = () => {
-
-    
     let url = "http://152.200.146.226:9002"
-
     const [data, setData] = useState([]);
-    // const [key, setToken] = useState()
-
-    //Se guarda el token, esto para poder guardarlo en el localstorage
-    const [tok, setTok] = useState();
-
-    let usuario = {
-        username: '227282',
-        password: 'R@f1t4'
-    }
-
-    
-    const getToken = async () => {
-        console.log("Entro a getToken...");
-        /*
-        let usuario = {
-            username: '227282',
-            password: 'R@f1t4'
-        }
-        */
-        let endPoint = url + "/api/getKey"
-        console.log(endPoint)
-
-        try {
-            const respuesta = await axios.post(endPoint, usuario)
-
-            setTok(respuesta)
-            console.log(tok);
-
-            return respuesta.data
-        } catch (error) {
-            throw error
-        }
-
-        // axios.post(endPoint, usuario)
-        //     .then(respuesta => {
-        //         console.log(respuesta.data)
-
-        //         let token = respuesta.data.token
-        //         setToken(respuesta.data.token)
-        //         //setToken("hola")
-        //         //console.log("KEY ->" + apiKEY)
-        //         console.log("KEY ->" + token)
-        //     })
-    }
+    const [tokenUser, setToken] = useState()
 
     // Se carga la informacion
     const getData = async () => {
-        const { token } = await getToken()
-
-        //Guardanod token en local storage
-        window.localStorage.setItem(
-            'sesion', JSON.stringify(tok) //Guardamos el token
-        )
-
-        console.log(token);
-
         const headers = {
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${tokenUser}`,
             "Content-Type": "application/json"
         };
 
@@ -84,42 +31,33 @@ const Campania = () => {
             })
     }
 
-    useEffect(() => {
-        // getToken()
-        getData()
-    }, []);
+    // useEffect(() => {
+    //     // getToken()
+    //     getData()
+    // }, []);
 
     //Se pueden tener tantos useEffect como queramos
     //Este efecto es para leer el local storage
 
     useEffect(() => {
-        const logged = window.localStorage.getItem('token')
+        if (localStorage.getItem("isLogged")) {
+            const isLogged = localStorage.getItem("isLogged")
+            const token = localStorage.getItem("token")
 
+            console.log(tokenUser);
 
-        //Si hay un token ponerlo!
-        if(logged){
-            const toke = JSON.parse(logged)
+            //Si hay un token ponerlo!
+            if(isLogged) {
+                setToken(token)
+                getData()
+            }
+        } else {
+            // Debe volver al login
+            console.log("No esta logged y debe volver al login...");
 
-            //setTok(toke) 
-            //Poner el token que le falte
+            return <Redirect to="/dashboard" />
         }
-
     }, []);    
-
-    
-
-    /*
-    let url = "http://152.200.146.226:9002"
-
-    async function login(){
-
-        const {data} = await Axios.post(url),{
-            
-        }
-    }
-    */
-
-
 
     return (
         <div className=" w-50 mx-auto">

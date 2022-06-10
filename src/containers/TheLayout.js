@@ -6,7 +6,7 @@ import {
   TheHeader
 } from './index'
 
-const TheLayout = () => {
+const TheLayout = () => { {/*Este es el molde de la pagina*/}
 
   return (
     <div className="c-app c-default-layout">
@@ -14,7 +14,7 @@ const TheLayout = () => {
       <div className="c-wrapper">
         <TheHeader/>
         <div className="c-body">
-          <TheContent/>
+          <TheContent/> 
         </div>
         <TheFooter/>
       </div>
