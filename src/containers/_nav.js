@@ -17,10 +17,19 @@ const _nav =  [
     _children: ['Archivo']
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Campañas',
-    to: '/archivo/campanias',
+    _tag: 'CSidebarNavDropdown',
+    name: 'Mercadeo',
+    to: '',
     icon: 'cil-drop',
+    _children:[
+      {
+        _tag : 'CSidebarNavItem',
+        name: 'Campañas',
+        to:'/archivo/campanias',
+        icon: 'cil-drop',
+        
+      }
+    ]
   },
   {
     _tag: 'CSidebarNavItem',

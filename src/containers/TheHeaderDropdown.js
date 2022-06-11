@@ -5,9 +5,12 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CImg
+  CImg,
+  CLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+
+import { Link } from 'react-router-dom'
 
 const TheHeaderDropdown = () => {
   return (
@@ -80,10 +83,21 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+
+
+        
+
+        
+        <CDropdownItem href='#/login'>
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+          Log out
         </CDropdownItem>
+              
+        
+
+
+        <Link to={'/login'}><button>Salir</button></Link>
+
       </CDropdownMenu>
     </CDropdown>
   )
