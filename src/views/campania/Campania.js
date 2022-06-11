@@ -124,9 +124,7 @@ const Campania = () => {
   
     const toggleSideBar = () =>{
         
-        
-        setSidebar((prevState) => !prevState) /*Le cambia el estado*/
-        
+        setSidebar((prevState) => !prevState) /*Le cambia el estado*/       
     }
     
 
@@ -135,7 +133,7 @@ const Campania = () => {
         <div>
    
             {/*<ToolBar/>*/}
-            <SideBar sideBar={sideBar}/>
+            <SideBar sideBar={sideBar} opcion={"Agregar"} cerrar={toggleSideBar}/>
             
             <CRow xl={12} className="d-flex justify-content-center">
 
@@ -212,14 +210,7 @@ const Campania = () => {
                                         )
 
 
-                                    // 'status':
-                                    //     (item) => (
-                                    //         <td>
-                                    //             <CBadge color={getBadge(item.status)}>
-                                    //                 {item.status}
-                                    //             </CBadge>
-                                    //         </td>
-                                    //     )
+                                    
                                 }}
                             />
 

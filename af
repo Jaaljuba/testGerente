@@ -1,0 +1,47 @@
+[33mcommit d1d149ec27188ad59d2d2007b63051eba6b71a1d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Programacion <jorgeluishuergo88@gmail.com>
+Date:   Sat Jun 11 11:47:13 2022 -0500
+
+    Se agrego sidebar
+
+[33mcommit 1f3619ae502541bf7a03503b6873021de9ac77bb[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Fri Jun 10 20:36:49 2022 -0500
+
+    fix final
+
+[33mcommit a62eb37f3036b6d1179528d8426f1af443552de3[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Fri Jun 10 20:34:23 2022 -0500
+
+    se creo archivo de funciones generales, se modifico la vista de campanias para mejoramiento
+
+[33mcommit 4dd928936dc78bf7578d152595b6113992ee6855[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Thu Jun 9 19:07:29 2022 -0500
+
+    Se implementa grabado de localstorage y modificaciones al sidebar
+
+[33mcommit 295753804cb26ffb08311589701b6142d769fd75[m
+Author: Programacion <jorgeluishuergo88@gmail.com>
+Date:   Thu Jun 9 07:30:25 2022 -0500
+
+    Token guardado en local storage
+
+[33mcommit 580689cc1b796a6c22dd97b1ffe7e2b257cb2074[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Wed Jun 8 21:30:58 2022 -0500
+
+    Format document
+
+[33mcommit 8c483ee979b6b89289a4ff3f3896f9a5afb579f1[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Wed Jun 8 21:28:43 2022 -0500
+
+    Fix bug async and await
+
+[33mcommit b634ad257c989366ffb1c07d1c4a3634c10ad3dd[m
+Author: Javier Junca Barreto <jaaljuba@gmail.com>
+Date:   Wed Jun 8 19:14:03 2022 -0500
+
+    First commit
