@@ -4,6 +4,10 @@ import { useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios';
 import moment from 'moment';
 
+
+import {SideBar} from '../../../src/views/base/navs/SideBar.js';
+
+
 import {
     CButton,
     CBadge,
@@ -23,19 +27,21 @@ import { getUserSesion, getUrlServer } from "src/GeneralsFunctions";
 
 
 
+
+
 const Campania = () => {
 
 
 
-const getBadge = status => {
-    switch (status) {
-      case 'Active': return 'success'
-      case 'Inactive': return 'secondary'
-      case 'Pending': return 'warning'
-      case 'Banned': return 'danger'
-      default: return 'primary'
+    const getBadge = status => {
+        switch (status) {
+            case 'Active': return 'success'
+            case 'Inactive': return 'secondary'
+            case 'Pending': return 'warning'
+            case 'Banned': return 'danger'
+            default: return 'primary'
+        }
     }
-  }
 
 
 
@@ -44,11 +50,11 @@ const getBadge = status => {
     var isLogged = false
     const campos = [
         {
-            "key":"nombre_Campania", 
-            "label": "Compañia"
-        }, 
-        "fecha_Inicial", 
-        "Estado", 
+            "key": "nombre_Campania",
+            "label": "Campaña"
+        },
+        "fecha_Inicial",
+        "Estado",
         {
             "key": "fecha_Actualizacion",
             "label": "Actualizacion"
@@ -111,99 +117,125 @@ const getBadge = status => {
     }, [currentPage, page])
 
 
+    //Funcion para abrir y cerrar el navbar
+    //const[sideBar, setSidebar] = useState(false);
 
+    const[sideBar, setSidebar] = useState(false);
+  
+    const toggleSideBar = () =>{
+        
+        
+        setSidebar((prevState) => !prevState) /*Le cambia el estado*/
+        
+    }
+    
 
     return (
-        <CRow xl={12} className="d-flex justify-content-center">
-            <CCol xl={7} className=" ">
-                <CCard>
-                    <CCardHeader>
-                        <h3>Campañas</h3>
-                    </CCardHeader>
-                    <CCardBody>
-                        <CButton variant="outline" color="success" className="mb-3">
-                            {/* <i className="bi bi-calendar-event w-25 text-primary mr-2"></i> */}
-                            <i class="bi bi-plus-circle mr-2"></i>
-                            Agregar
-                        </CButton>
-                        <CDataTable
-                            hover
-                            striped
-                            items={data}
-                            fields={campos}
-                            itemsPerPage={5}
-                            pagination
-                            scopedSlots={{
-                                'nombre_Campania':
-                                    (item) => (
-                                        // <CBadge color={getBadge("Pending")}>
-                                        <td className="">
-                                             
-                                            <div className="mt-1">
-                                                <div className="text-left h4 font-weight-bold">{item.nombre_Campania}</div>
-                                            </div>
-                                            
-                                        </td>
-                                        // </CBadge>
-                                    ),
-                                'fecha_Inicial':
-                                    (item) => (
-                                        <td>
-                                            <div className='text-center d-flex mt-1'>
-                                                <div className=" mr-2">
-                                                    <i className="bi bi-calendar-event text-primary"></i>
+
+        <div>
+   
+            {/*<ToolBar/>*/}
+            <SideBar sideBar={sideBar}/>
+            
+            <CRow xl={12} className="d-flex justify-content-center">
+
+           
+
+                <CCol xl={7} className=" ">
+                    <CCard>
+                        <CCardHeader>
+                            <h3>Campañas</h3>
+                        </CCardHeader>
+                        <CCardBody>
+                            <CButton variant="outline" color="success" className="mb-3 open-menu" onClick={toggleSideBar}>
+                                {/* <i className="bi bi-calendar-event w-25 text-primary mr-2"></i> */}
+                                <i class="bi bi-plus-circle mr-2"></i>
+                                Agregar
+                            </CButton>
+                            <CDataTable
+                                hover
+                                striped
+                                items={data}
+                                fields={campos}
+                                itemsPerPage={5}
+                                pagination
+                                scopedSlots={{
+                                    'nombre_Campania':
+                                        (item) => (
+                                            // <CBadge color={getBadge("Pending")}>
+                                            <td className="">
+
+                                                <div className="mt-1">
+                                                    <div className="text-left h4 font-weight-bold">{item.nombre_Campania}</div>
                                                 </div>
-                                                <div className="text-center">
-                                                    {moment(item.fecha_Inicial).format('DD/MM/YYYY')}
+
+                                            </td>
+                                            // </CBadge>
+                                        ),
+                                    'fecha_Inicial':
+                                        (item) => (
+                                            <td>
+                                                <div className='text-center d-flex mt-1'>
+                                                    <div className=" mr-2">
+                                                        <i className="bi bi-calendar-event text-success"></i>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        {moment(item.fecha_Inicial).format('DD/MM/YYYY')}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className='d-flex'>
-                                                <div className="text-center mr-2 ">
-                                                    <i className="bi bi-calendar-event text-danger"></i>
+                                                <div className='d-flex'>
+                                                    <div className="text-center mr-2 ">
+                                                        <i className="bi bi-calendar-event text-danger"></i>
+                                                    </div>
+                                                    <div className="text-center">{moment(item.fecha_Final).format('DD/MM/YYYY')}</div>
                                                 </div>
-                                                <div className="text-center">{moment(item.fecha_Final).format('DD/MM/YYYY')}</div>
-                                            </div>
-                                        </td>
-                                    ),
+                                            </td>
+                                        ),
 
-                                'fecha_Actualizacion':
+                                    'fecha_Actualizacion':
 
-                                    (item) => (
-                                        <td className="">
-                                            <div className='d-flex mt-1'>
-                                                <div className="text-center mr-2">
-                                                    <i className="bi bi-calendar-event w-25"></i>
+                                        (item) => (
+                                            <td className="">
+                                                <div className='d-flex mt-1'>
+                                                    <div className="text-center mr-2">
+                                                        <i className="bi bi-calendar-event w-25"></i>
+                                                    </div>
+                                                    <div className="text-center">{moment(item.fecha_Actualizacion).format('DD/MM/YYYY')}</div>
+
                                                 </div>
-                                                <div className="text-center">{moment(item.fecha_Actualizacion).format('DD/MM/YYYY')}</div>
+                                                <div className='text-center d-flex'>
+                                                    <i className="bi bi-smartwatch mr-2 "></i>
+                                                    <div className="text-left text-center">{moment(item.fecha_Actualizacion).format('HH:mm:ss')}</div>
+                                                </div>
+                                            </td>
 
-                                            </div>
-                                            <div className='text-center d-flex'>
-                                                <i className="bi bi-smartwatch mr-2 text-primary"></i>
-                                                <div className="text-left text-center">{moment(item.fecha_Actualizacion).format('HH:mm:ss')}</div>
-                                            </div>
-                                        </td>
-
-                                    )
+                                        )
 
 
-                                // 'status':
-                                //     (item) => (
-                                //         <td>
-                                //             <CBadge color={getBadge(item.status)}>
-                                //                 {item.status}
-                                //             </CBadge>
-                                //         </td>
-                                //     )
-                            }}
-                        />
-                        
+                                    // 'status':
+                                    //     (item) => (
+                                    //         <td>
+                                    //             <CBadge color={getBadge(item.status)}>
+                                    //                 {item.status}
+                                    //             </CBadge>
+                                    //         </td>
+                                    //     )
+                                }}
+                            />
 
 
-                    </CCardBody>
-                </CCard>
-            </CCol>
-        </CRow>
 
+                        </CCardBody>
+                    </CCard>
+                </CCol>
+
+             
+                    
+
+                
+            </CRow>
+
+        </div>
 
     );
 }
