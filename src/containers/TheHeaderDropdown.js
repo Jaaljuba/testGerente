@@ -96,7 +96,7 @@ const TheHeaderDropdown = () => {
         
 
 
-        <Link to={'/login'}><button>Salir</button></Link>
+     
 
       </CDropdownMenu>
     </CDropdown>

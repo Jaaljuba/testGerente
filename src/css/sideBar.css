@@ -12,6 +12,7 @@
     transition: all 0.4s;
     border-radius: 5px;
     padding: 35px;
+    transition: all 0.5s ease-out;
 }
 
 .sideBar--open{

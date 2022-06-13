@@ -12,7 +12,7 @@ import {
     CFormGroup
 } from '@coreui/react'
 
-export const SideBar = ({ sideBar, opcion, cerrar}) => {
+export const SideBar = ({ sideBar, opcion, cerrar, id}) => {
 
     let url;  
     let tokenUsuario = null
@@ -48,6 +48,53 @@ export const SideBar = ({ sideBar, opcion, cerrar}) => {
         console.log(response)
 
         }
+
+        const actualizar = async () =>{ //Se le debe pasar por id el que se quiere borrar (creo xd)
+              
+        cerrar()
+
+         
+        
+        url = await getUrlServer() + "/mercadeo/api/campania/" + id; //Se le agrega el id del usaurio
+       
+        tokenUsuario = await getUserSesion("token")
+
+        console.log(`Token -> ${tokenUsuario}`);
+
+        const headers = {
+            "Authorization": `Bearer ${tokenUsuario}`,
+            "Content-Type": "application/json"
+        };
+
+        const campaniaJson = { "nombre_Campania": campania,
+                                "descripcion": descripcion,
+                                "fecha_Inicial": fechaInicial,
+                                "fecha_Final": fechaFinal,
+                                "estado": "A"                        
+                            };
+        const response = await axios.put(url, campaniaJson, {headers});
+
+        console.log(response)
+        }
+
+    //Metodo para identificar que operacion se va a ejecutar
+    //Se esta ejecutando para agregar y actualizar correctamente
+    const ejecutar = async () =>{
+
+        if(opcion == "Agregar"){
+            crear();
+            
+        }
+        else if(opcion == "Actualizar"){
+            actualizar();
+            alert(id)
+            
+        }
+        else{
+            //Metodo para eliminar
+            alert("No esta entrando")
+        }
+    } 
 
     return (
 
@@ -122,7 +169,7 @@ export const SideBar = ({ sideBar, opcion, cerrar}) => {
 
                 
                 <div className="d-flex justify-content-center">
-                    <CButton color="success" onClick={crear} className="mr-2">{opcion}</CButton>
+                    <CButton color="success" onClick={ejecutar} className="mr-2">{opcion}</CButton>
                     <CButton color="danger" onClick={cerrar} className="ml-2">Cancelar</CButton>
                 </div>  
             </CForm>

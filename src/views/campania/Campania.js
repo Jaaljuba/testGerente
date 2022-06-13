@@ -26,7 +26,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { getUserSesion, getUrlServer } from "src/GeneralsFunctions";
 
 
-
+import "../../css/campania.css"
 
 
 const Campania = () => {
@@ -62,6 +62,8 @@ const Campania = () => {
     ]
 
     const [data, setData] = useState([]);
+
+    const [opcion, setOpcion] = useState([]);
 
     const validarSesion = async () => {
         isLogged = await getUserSesion("isLogged")
@@ -121,10 +123,26 @@ const Campania = () => {
     //const[sideBar, setSidebar] = useState(false);
 
     const[sideBar, setSidebar] = useState(false);
-  
-    const toggleSideBar = () =>{
+    
+    
+    const toggleSideBar = (opcion) =>{ //Le pasamos el parametro para que se actualicee
         
-        setSidebar((prevState) => !prevState) /*Le cambia el estado*/       
+        setSidebar((prevState) => !prevState) 
+        setOpcion(opcion)
+    }
+
+    const toggle = () =>{
+        setSidebar((prevState) => !prevState) 
+    }
+
+    const[opciones, setOpciones] = useState(false);
+
+
+    const[idCampania, setIdCampania] = useState(0)
+    const toggleOpciones = (id) =>{
+
+        setOpciones((prevState) => !prevState)
+        setIdCampania(id)
     }
     
 
@@ -132,25 +150,41 @@ const Campania = () => {
 
         <div>
    
-            {/*<ToolBar/>*/}
-            <SideBar sideBar={sideBar} opcion={"Agregar"} cerrar={toggleSideBar}/>
+            {/*Aca se debe cambiar la opcion y recibe un id para el actualizar y eliminar*/}
+            <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania}/>
             
             <CRow xl={12} className="d-flex justify-content-center">
-
-           
-
-                <CCol xl={7} className=" ">
+         
+                <CCol xl={7} className="">
                     <CCard>
                         <CCardHeader>
                             <h3>Campañas</h3>
                         </CCardHeader>
                         <CCardBody>
-                            <CButton variant="outline" color="success" className="mb-3 open-menu" onClick={toggleSideBar}>
+                            <CButton variant="outline" color="success" className="mb-3 open-menu" onClick={(e) => toggleSideBar("Agregar", e)}>
                                 {/* <i className="bi bi-calendar-event w-25 text-primary mr-2"></i> */}
                                 <i class="bi bi-plus-circle mr-2"></i>
                                 Agregar
                             </CButton>
-                            <CDataTable
+
+                            <div className={opciones ? "opciones--open" : "opciones"}>
+                                <i class="bi bi-gear-fill gearD" onClick={(e) =>toggleOpciones("id parametro", e)}></i>
+                                <h4>Detalles</h4>
+                                <h5>Campaña</h5>
+                                <p>
+                                    Se muestra la informacion del item seleccionado.
+                                    lorem lorem  lorem  lorem  lorem  lorem lorem  lorem  
+                                </p>
+                                <CButton variant="outline" color="success" className="mb-3 ml-3  open-menu" onClick={(e) => toggleSideBar("Actualizar", e)}>                               
+                                <i class="bi bi-plus-circle mr-2"></i>
+                                Actualizar
+                                </CButton>
+                                <CButton variant="outline" color="danger" className="mb-3 ml-3 open-menu" onClick={(e) => toggleSideBar("-", e)}>
+                                <i class="bi bi-plus-circle mr-2"></i>
+                                Elimnar
+                                </CButton>
+                            </div>
+                            <CDataTable                              
                                 hover
                                 striped
                                 items={data}
@@ -160,15 +194,14 @@ const Campania = () => {
                                 scopedSlots={{
                                     'nombre_Campania':
                                         (item) => (
-                                            // <CBadge color={getBadge("Pending")}>
+                                            
                                             <td className="">
-
+                                                
                                                 <div className="mt-1">
                                                     <div className="text-left h4 font-weight-bold">{item.nombre_Campania}</div>
                                                 </div>
 
                                             </td>
-                                            // </CBadge>
                                         ),
                                     'fecha_Inicial':
                                         (item) => (
@@ -191,9 +224,9 @@ const Campania = () => {
                                         ),
 
                                     'fecha_Actualizacion':
-
-                                        (item) => (
+                                        (item) => (                                           
                                             <td className="">
+                                                <i class="bi bi-gear-fill gear" onClick={(e) =>toggleOpciones(item.id_Campania, e)}></i>
                                                 <div className='d-flex mt-1'>
                                                     <div className="text-center mr-2">
                                                         <i className="bi bi-calendar-event w-25"></i>
@@ -202,16 +235,15 @@ const Campania = () => {
 
                                                 </div>
                                                 <div className='text-center d-flex'>
+                                                    
                                                     <i className="bi bi-smartwatch mr-2 "></i>
                                                     <div className="text-left text-center">{moment(item.fecha_Actualizacion).format('HH:mm:ss')}</div>
                                                 </div>
                                             </td>
 
-                                        )
-
-
-                                    
+                                        )    
                                 }}
+                                
                             />
 
 
