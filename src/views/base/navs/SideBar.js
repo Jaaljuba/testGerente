@@ -23,20 +23,14 @@ export const SideBar = ({ sideBar, opcion, cerrar, id}) => {
     const [fechaFinal, setfechaFinal] = useState('')
 
     const crear = async () =>{
-
-        cerrar()
-        
-        url = await getUrlServer() + "/mercadeo/api/campania/";
-       
+        cerrar()       
+        url = await getUrlServer() + "/mercadeo/api/campania/";      
         tokenUsuario = await getUserSesion("token")
-
         console.log(`Token -> ${tokenUsuario}`);
-
         const headers = {
             "Authorization": `Bearer ${tokenUsuario}`,
             "Content-Type": "application/json"
         };
-
         const campaniaJson = { "nombre_Campania": campania,
                                 "descripcion": descripcion,
                                 "fecha_Inicial": fechaInicial,
@@ -44,9 +38,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id}) => {
                                 "estado": "A"                        
                             };
         const response = await axios.post(url, campaniaJson, {headers});
-
         console.log(response)
-
         }
 
         const actualizar = async () =>{ //Se le debe pasar por id el que se quiere borrar (creo xd)
