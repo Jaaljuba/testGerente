@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios';
 import moment from 'moment';
 
-
+import { getUrlServer, getUserSesion } from '../../../src/GeneralsFunctions'
 import {SideBar} from '../../../src/views/base/navs/SideBar.js';
 
 
@@ -23,7 +23,7 @@ import {
 // import '../src/css/campanias.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import { getUserSesion, getUrlServer } from "src/GeneralsFunctions";
+
 
 
 import "../../css/campania.css"
@@ -144,6 +144,26 @@ const Campania = () => {
         setOpciones((prevState) => !prevState)
         setIdCampania(id)
     }
+
+    let url = ""
+    const eliminarCampania =  async () =>{
+        
+        url = await getUrlServer() + "/mercadeo/api/campania/" + idCampania; //Se le agrega el id del usaurio
+       
+        tokenUsuario = await getUserSesion("token")
+
+        console.log(`Token -> ${tokenUsuario}`);
+
+        const headers = {
+            "Authorization": `Bearer ${tokenUsuario}`,
+            "Content-Type": "application/json"
+        };
+
+        
+        const response = await axios.delete(url, {headers});
+
+        console.log(response)
+    }
     
 
     return (
@@ -170,10 +190,10 @@ const Campania = () => {
                             <div className={opciones ? "opciones--open" : "opciones"}>
                                 <i class="bi bi-gear-fill gearD" onClick={(e) =>toggleOpciones("id parametro", e)}></i>
                                 <h4>Detalles</h4>
-                                <h5>Campaña</h5>
+                                <h5>item.nombre_Campania</h5>
+                                
                                 <p>
-                                    Se muestra la informacion del item seleccionado.
-                                    lorem lorem  lorem  lorem  lorem  lorem lorem  lorem  
+                                    item.descripcion
                                 </p>
                                 <CButton variant="outline" color="success" className="mb-3 ml-3  open-menu" onClick={(e) => toggleSideBar("Actualizar", e)}>                               
                                 <i class="bi bi-plus-circle mr-2"></i>

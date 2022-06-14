@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import '../../../../src/css/sideBar.css'
 import { useState } from 'react'
-import { getUrlServer, getToken, getUserSesion } from 'src/GeneralsFunctions'
+import { getUrlServer,  getUserSesion } from 'src/GeneralsFunctions'
 import axios from 'axios';
 import {
     CButton,
@@ -85,15 +85,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id}) => {
             crear();
             
         }
-        else if(opcion == "Actualizar"){
-            actualizar();
-            alert(id)
-            
-        }
         else{
-            //Metodo para eliminar
-            alert("No esta entrando")
+            actualizar();
+                     
         }
+       
     } 
 
     return (
