@@ -42,12 +42,16 @@ export const SideBar = ({ sideBar, opcion, cerrar, id}) => {
         }
 
         const actualizar = async () =>{ //Se le debe pasar por id el que se quiere borrar (creo xd)
-              
+
+        let idN = id.replace(/-/g, '');
+
+        
+        console.log("id correcto: " + idN)
+       
+                   
         cerrar()
 
-         
-        
-        url = await getUrlServer() + "/mercadeo/api/campania/" + id; //Se le agrega el id del usaurio
+        url = await getUrlServer() + "/mercadeo/api/campania/" + idN; //Se le agrega el id del usaurio
        
         tokenUsuario = await getUserSesion("token")
 
