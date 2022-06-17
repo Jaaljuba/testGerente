@@ -162,7 +162,7 @@ const Campania = () => {
         
         const response = await axios.delete(url, {headers});
 
-        console.log(response)
+       
     }
     
 
