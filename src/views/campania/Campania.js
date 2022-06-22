@@ -5,8 +5,8 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { getUrlServer, getUserSesion } from '../../../src/GeneralsFunctions'
-import {SideBar} from '../../../src/views/base/navs/SideBar.js';
-
+import { SideBar } from '../../../src/views/base/navs/SideBar.js';
+import { Options } from "../../../src/views/base/options/Option.js";
 
 import {
     CButton,
@@ -122,34 +122,35 @@ const Campania = () => {
     //Funcion para abrir y cerrar el navbar
     //const[sideBar, setSidebar] = useState(false);
 
-    const[sideBar, setSidebar] = useState(false);
-    
-    
-    const toggleSideBar = (opcion) =>{ //Le pasamos el parametro para que se actualicee
-        
-        setSidebar((prevState) => !prevState) 
+    const [sideBar, setSidebar] = useState(false);
+
+
+    const toggleSideBar = (opcion) => { //Le pasamos el parametro para que se actualicee
+
+        setSidebar((prevState) => !prevState)
         setOpcion(opcion)
     }
 
-    const toggle = () =>{
-        setSidebar((prevState) => !prevState) 
+    
+    const toggle = () => {
+        setSidebar((prevState) => !prevState)
     }
+    // Metodos que se pasaron al option
+    const [opciones, setOpciones] = useState(false);
 
-    const[opciones, setOpciones] = useState(false);
 
-
-    const[idCampania, setIdCampania] = useState(0)
-    const toggleOpciones = (id) =>{
+    const [idCampania, setIdCampania] = useState(0)
+    const toggleOpciones = (id) => {
 
         setOpciones((prevState) => !prevState)
         setIdCampania(id)
     }
 
     let url = ""
-    const eliminarCampania =  async () =>{
-        
+    const eliminarCampania = async () => {
+
         url = await getUrlServer() + "/mercadeo/api/campania/" + idCampania; //Se le agrega el id del usaurio
-       
+
         tokenUsuario = await getUserSesion("token")
 
         console.log(`Token -> ${tokenUsuario}`);
@@ -159,22 +160,22 @@ const Campania = () => {
             "Content-Type": "application/json"
         };
 
-        
-        const response = await axios.delete(url, {headers});
 
-       
+        const response = await axios.delete(url, { headers });
+
+
     }
-    
+
 
     return (
 
         <div>
-   
+
             {/*Aca se debe cambiar la opcion y recibe un id para el actualizar y eliminar*/}
-            <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania}/>
-            
+            <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania} />
+
             <CRow xl={12} className="d-flex justify-content-center">
-         
+
                 <CCol xl={7} className="">
                     <CCard>
                         <CCardHeader>
@@ -187,24 +188,8 @@ const Campania = () => {
                                 Agregar
                             </CButton>
 
-                            <div className={opciones ? "opciones--open" : "opciones"}>
-                                <i class="bi bi-gear-fill gearD" onClick={(e) =>toggleOpciones("id parametro", e)}></i>
-                                <h4>Detalles</h4>
-                                <h5>item.nombre_Campania</h5>
-                                
-                                <p>
-                                    item.descripcion
-                                </p>
-                                <CButton variant="outline" color="success" className="mb-3 ml-3  open-menu" onClick={(e) => toggleSideBar("Actualizar", e)}>                               
-                                <i class="bi bi-plus-circle mr-2"></i>
-                                Actualizar
-                                </CButton>
-                                <CButton variant="outline" color="danger" className="mb-3 ml-3 open-menu" onClick={(e) => toggleSideBar("-", e)}>
-                                <i class="bi bi-plus-circle mr-2"></i>
-                                Elimnar
-                                </CButton>
-                            </div>
-                            <CDataTable                              
+
+                            <CDataTable
                                 hover
                                 striped
                                 items={data}
@@ -214,9 +199,9 @@ const Campania = () => {
                                 scopedSlots={{
                                     'nombre_Campania':
                                         (item) => (
-                                            
+
                                             <td className="">
-                                                
+
                                                 <div className="mt-1">
                                                     <div className="text-left h4 font-weight-bold">{item.nombre_Campania}</div>
                                                 </div>
@@ -244,9 +229,19 @@ const Campania = () => {
                                         ),
 
                                     'fecha_Actualizacion':
-                                        (item) => (                                           
+                                        (item) => (
                                             <td className="">
-                                                <i class="bi bi-gear-fill gear" onClick={(e) =>toggleOpciones(item.id_Campania, e)}></i>
+                                               
+                                                {/* <div className={opciones ? "opciones--open" : "opciones"}> */}
+                                                    
+                                                <Options p="entra" id="2"/>  {/* Genera que se amplie el espacio */}
+                                                
+                                                    
+                             
+                                                {/* </div> */}
+
+                                                <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i>
+                                                
                                                 <div className='d-flex mt-1'>
                                                     <div className="text-center mr-2">
                                                         <i className="bi bi-calendar-event w-25"></i>
@@ -255,15 +250,17 @@ const Campania = () => {
 
                                                 </div>
                                                 <div className='text-center d-flex'>
-                                                    
+
                                                     <i className="bi bi-smartwatch mr-2 "></i>
                                                     <div className="text-left text-center">{moment(item.fecha_Actualizacion).format('HH:mm:ss')}</div>
                                                 </div>
+                                                
                                             </td>
-
-                                        )    
+                                             
+                                        )   
+                                       
                                 }}
-                                
+
                             />
 
 
@@ -272,10 +269,10 @@ const Campania = () => {
                     </CCard>
                 </CCol>
 
-             
-                    
 
-                
+
+
+
             </CRow>
 
         </div>

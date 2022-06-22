@@ -1,4 +1,4 @@
-.gear{
+.bi-three-dots{
     position: absolute;
     margin-left: 105px;
     margin-top: -15px;
@@ -13,7 +13,7 @@
     font-size: 13px;
 }
 
-.gear:hover{
+.bi-three-dots{
 
     cursor: pointer;
 }
@@ -31,8 +31,12 @@
 .opciones--open{
     z-index: 99;
     position: absolute;
-    width: 95%;
-    height: 70%;
+    float: right;
+    width: 20%;
+    height: 35%;
+
+    right: 1px;
+
     background-color: rgb(196, 199, 202);
     text-align: center;
     border-radius: 5px;
