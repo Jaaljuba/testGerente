@@ -1,22 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
-/*Importar el css*/
+
+// El css lo toma del css de campania
 
 export const Options = (props) => { //Tiene que llegar para que se abra y el id
     
     const {p, id} = props; //Tomamos las props que vienen
 
     const [opciones, setOpciones] = useState(false);
-
-    
-  
-    if(p === "entr" ){//Si me lo toma
-       
-        setOpciones((prevState) => !prevState)
-        setIdCampania(id)
-    }
-
     const [idCampania, setIdCampania] = useState(0)
+    
     const [sideBar, setSidebar] = useState(false);
 
     const [opcion, setOpcion] = useState([]);
@@ -35,13 +28,13 @@ export const Options = (props) => { //Tiene que llegar para que se abra y el id
 
     return (
         // Se cambio la opcion para que siempre se viera
-        <div className={opciones ? "opciones--open" : "opciones--open"}> 
+        <div className={p ? "opciones--open" : "opciones"}> 
             
-            <h1>{`${p}`}</h1>
-            <i class="bi bi-three-dots gearD" onClick={(e) => toggleOpciones("id parametro", e)}></i>
-            <p><i class="bi bi-eye mr-2" />View</p>
-            <p><i class="bi bi-pencil mr-2" onClick={(e) => toggleSideBar("Actualizar", e)} />Edit</p>
-            <p><i class="bi bi-trash mr-2" onClick={(e) => toggleSideBar("-", e)} />Remove</p>
+            
+            
+            <p><i class="bi bi-eye mr-2" />Ver</p>
+            <p><i class="bi bi-pencil mr-2" onClick={(e) => toggleSideBar("Actualizar", e)} />Editar</p>
+            <p><i class="bi bi-trash mr-2" onClick={(e) => toggleSideBar("-", e)} />Eliminar</p>
         </div>
     )
 }

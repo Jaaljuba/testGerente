@@ -131,7 +131,7 @@ const Campania = () => {
         setOpcion(opcion)
     }
 
-    
+
     const toggle = () => {
         setSidebar((prevState) => !prevState)
     }
@@ -139,11 +139,17 @@ const Campania = () => {
     const [opciones, setOpciones] = useState(false);
 
 
-    const [idCampania, setIdCampania] = useState(0)
+    const [idCampania, setIdCampania] = useState("000")
+
+    let idv = "0";
     const toggleOpciones = (id) => {
 
         setOpciones((prevState) => !prevState)
+        
+        idv = id;
         setIdCampania(id)
+        //  alert("Id: " + id)
+        // alert("id_campania " + idv)
     }
 
     let url = ""
@@ -166,6 +172,8 @@ const Campania = () => {
 
     }
 
+    //Va a abrir o cerrar el menu
+    //const [menu, setMenu] = useState(false);
 
     return (
 
@@ -231,17 +239,16 @@ const Campania = () => {
                                     'fecha_Actualizacion':
                                         (item) => (
                                             <td className="">
-                                               
-                                                {/* <div className={opciones ? "opciones--open" : "opciones"}> */}
-                                                    
-                                                <Options p="entra" id="2"/>  {/* Genera que se amplie el espacio */}
-                                                
-                                                    
-                             
-                                                {/* </div> */}
 
-                                                <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i>
+                                                {/* <div className={opciones ? "opciones--open" : "opciones"}> */}
+
+                                                <Options p={ item.id_Campania == idCampania && opciones == true ? true : false} id={item.idCampania} />  
+
+                                               
+                                                {/* Cambia el estado de opciones */}
+                                                <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i> 
                                                 
+
                                                 <div className='d-flex mt-1'>
                                                     <div className="text-center mr-2">
                                                         <i className="bi bi-calendar-event w-25"></i>
@@ -254,11 +261,9 @@ const Campania = () => {
                                                     <i className="bi bi-smartwatch mr-2 "></i>
                                                     <div className="text-left text-center">{moment(item.fecha_Actualizacion).format('HH:mm:ss')}</div>
                                                 </div>
-                                                
+
                                             </td>
-                                             
-                                        )   
-                                       
+                                        )
                                 }}
 
                             />
