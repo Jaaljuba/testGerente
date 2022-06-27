@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../../../../src/css/sideBar.css'
 import { useState } from 'react'
 import { getUrlServer, getUserSesion } from 'src/GeneralsFunctions'
@@ -13,15 +13,17 @@ import {
     CFormGroup
 } from '@coreui/react'
 
-export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
+export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
 
     let url;
     let tokenUsuario = null
 
-    const [campania, setCampania] = useState('')
+    const [campania, setCampania] = useState()
     const [descripcion, setDescripcion] = useState('')
     const [fechaInicial, setfechaInicial] = useState('')
     const [fechaFinal, setfechaFinal] = useState('')
+
+    
 
     const crear = async () => {
         cerrar()
@@ -43,7 +45,13 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
         console.log(response)
     }
 
+
+
     const actualizar = async () => {
+
+       
+
+        
 
         id = id.replace(/-/g, ''); //Al id le quitamos todos los -
 
@@ -79,7 +87,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
     //Metodo para identificar que operacion se va a ejecutar
     //Se esta ejecutando para agregar y actualizar correctamente
     const ejecutar = async () => {
-
+        
         if (opcion == "Agregar") {
             crear();
 
@@ -90,6 +98,17 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
         }
 
     }
+
+    // Se pondran los valores
+    useEffect(() =>{
+        if(opcion == "Actualizar"){
+            setCampania(info.segundo)
+            setDescripcion(info.tercero)
+            setfechaInicial(info.cuarto)
+            setfechaFinal(info.quinto)
+        }   
+        // alert(info.segundo)
+    })
 
     return (
 
@@ -108,6 +127,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
                         placeholder="Digite el nombre de la campaña"
                         autoComplete="campania"
                         onChange={({ target }) => setCampania(target.value)}
+                        value = {campania}
+                        
                     />
                 </CFormGroup>
 
@@ -119,6 +140,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
                         aria-label="With textarea"
                         placeholder='Digite la descripcion de la campaña'
                         onChange={({ target }) => setDescripcion(target.value)}
+                        value={descripcion}
                     >
 
                     </textarea>
@@ -134,6 +156,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
                         placeholder="Enter Password.."
                         autoComplete="current-password"
                         onChange={({ target }) => setfechaInicial(target.value)}
+                        value={fechaInicial}
                     />
 
                 </CFormGroup>
@@ -148,6 +171,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
                         placeholder="Enter Password.."
                         autoComplete="current-password"
                         onChange={({ target }) => setfechaFinal(target.value)}
+                        value={fechaFinal}
                     />
                 </CFormGroup>
 

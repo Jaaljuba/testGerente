@@ -141,15 +141,26 @@ const Campania = () => {
 
     const [idCampania, setIdCampania] = useState("000")
 
+
+
     let idv = "0";
-    const toggleOpciones = (id) => {
+    const toggleOpciones = (id, dos, tres, cuatro, cinco) => {
 
         setOpciones((prevState) => !prevState)
         
         idv = id;
         setIdCampania(id)
-        //  alert("Id: " + id)
-        // alert("id_campania " + idv)
+       
+
+        //Se va a poner la informacion de todos los elementos
+
+        setInfo({
+            primero: id,
+            segundo: dos,
+            tercero: tres,
+            cuarto: cuatro,
+            quinto: cinco
+        })
     }
 
     let url = ""
@@ -175,12 +186,22 @@ const Campania = () => {
     //Va a abrir o cerrar el menu
     //const [menu, setMenu] = useState(false);
     
-    const handleToggle = (opcion) => { //Le pasamos el parametro para que se actualicee
+    const handleToggle = (opcion, data) => { //Le pasamos el parametro para que se actualicee
 
         setSidebar((prevState) => !prevState)
         setOpcion(opcion)
-        // alert("Sirvaaa")
+        
+           
+        //Al contenido actualizar le debemos poner las opciones
+        //Creame un array nuevo, su contenido es todo lo que tiene users mas lo nuevo
+        
+       
+       
     }
+
+    // Tiene la informacion para mostrar en actualizar, cada posicion representa un recuadro.
+    const [ info, setInfo] = useState(null);
+
 
 
     return (
@@ -188,7 +209,7 @@ const Campania = () => {
         <div>
 
             {/*Aca se debe cambiar la opcion y recibe un id para el actualizar y eliminar*/}
-            <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania} />
+            <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania} info={info}/>
             <CRow xl={12} className="d-flex justify-content-center">
                 <CCol xl={7} className="">
                     <CCard>
@@ -251,7 +272,8 @@ const Campania = () => {
 
                                                
                                                 {/* Cambia el estado de opciones */}
-                                                <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i> 
+                                                {/* <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i>  */}
+                                                <i class="bi bi-three-dots" onClick={() => toggleOpciones(item.id_Campania, item.nombre_Campania, item.descripcion, item.fecha_Inicial, item.fecha_Final)}></i>
                                                 
 
                                                 <div className='d-flex mt-1'>
