@@ -174,6 +174,14 @@ const Campania = () => {
 
     //Va a abrir o cerrar el menu
     //const [menu, setMenu] = useState(false);
+    
+    const handleToggle = (opcion) => { //Le pasamos el parametro para que se actualicee
+
+        setSidebar((prevState) => !prevState)
+        setOpcion(opcion)
+        // alert("Sirvaaa")
+    }
+
 
     return (
 
@@ -181,9 +189,7 @@ const Campania = () => {
 
             {/*Aca se debe cambiar la opcion y recibe un id para el actualizar y eliminar*/}
             <SideBar sideBar={sideBar} opcion={opcion} cerrar={toggle} id={idCampania} />
-
             <CRow xl={12} className="d-flex justify-content-center">
-
                 <CCol xl={7} className="">
                     <CCard>
                         <CCardHeader>
@@ -195,7 +201,6 @@ const Campania = () => {
                                 <i class="bi bi-plus-circle mr-2"></i>
                                 Agregar
                             </CButton>
-
 
                             <CDataTable
                                 hover
@@ -242,7 +247,7 @@ const Campania = () => {
 
                                                 {/* <div className={opciones ? "opciones--open" : "opciones"}> */}
 
-                                                <Options p={ item.id_Campania == idCampania && opciones == true ? true : false} id={item.idCampania} />  
+                                                <Options p={ item.id_Campania == idCampania && opciones == true ? true : false} id={item.idCampania} handleToggle={handleToggle}/>  
 
                                                
                                                 {/* Cambia el estado de opciones */}

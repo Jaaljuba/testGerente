@@ -22,6 +22,9 @@
     cursor: pointer;
 }
 
+
+/* opciones */
+
 .opciones{
     visibility: hidden;
     position: absolute;
@@ -52,3 +55,6 @@
     text-align: left;
 }
 
+.opt{
+    cursor: pointer;
+}

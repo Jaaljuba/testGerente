@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export const Options = (props) => { //Tiene que llegar para que se abra y el id
     
+   
     const {p, id} = props; //Tomamos las props que vienen
 
     const [opciones, setOpciones] = useState(false);
@@ -20,21 +21,20 @@ export const Options = (props) => { //Tiene que llegar para que se abra y el id
         setIdCampania(id)
     }
 
-    const toggleSideBar = (opcion) => { //Le pasamos el parametro para que se actualicee
+     const t = () => { //Le pasamos el parametro para que se actualicee
 
-        setSidebar((prevState) => !prevState)
-        setOpcion(opcion)
-    }
+        
+        // toggleSidebar("Actualizar")
+     }
+
+   
 
     return (
         // Se cambio la opcion para que siempre se viera
-        <div className={p ? "opciones--open" : "opciones"}> 
-            
-            
-            
-            <p><i class="bi bi-eye mr-2" />Ver</p>
-            <p><i class="bi bi-pencil mr-2" onClick={(e) => toggleSideBar("Actualizar", e)} />Editar</p>
-            <p><i class="bi bi-trash mr-2" onClick={(e) => toggleSideBar("-", e)} />Eliminar</p>
+        <div className={p ? "opciones--open" : "opciones"}>                             
+            <p className="opt"><i className="bi bi-eye mr-2 opt" />Ver</p>
+            <p className="opt" onClick={() => props.handleToggle("Actualizar")}><i className="bi bi-pencil mr-2 opt"  />Editar</p>
+            <p className="opt"><i className="bi bi-trash mr-2 "  />Eliminar</p>
         </div>
     )
 }
