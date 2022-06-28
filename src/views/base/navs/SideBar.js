@@ -17,7 +17,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
   let url;
   let tokenUsuario = null;
 
-  const [campania, setCampania] = useState();
+  const [campania, setCampania] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [fechaInicial, setfechaInicial] = useState("");
   const [fechaFinal, setfechaFinal] = useState("");
@@ -102,14 +102,14 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
       <h4>{opcion}</h4>
       <CForm action="" method="post">
         <CFormGroup>
-          <CLabel htmlFor="nf-email">Campaña</CLabel>
           <CInput
-            type="email"
-            id="nf-email"
-            name="nf-email"
-            placeholder={ opcion == "Actualizar" ? campania : "Digite el nombre de la campaña"}
-            autoComplete="campania"
+            label="Nombre campaña: "
+           
+            placeholder="Nombre de la campaña"
             onChange={({ target }) => setCampania(target.value)}
+            value={campania}
+
+
             
           />
         </CFormGroup>

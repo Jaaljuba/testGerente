@@ -49,11 +49,12 @@ const Campania = () => {
       label: "Campaña",
     },
     "fecha_Inicial",
-    "Estado",
+    "estado",
     {
       key: "fecha_Actualizacion",
       label: "Actualizacion",
     },
+    "opciones"
   ];
 
   const [data, setData] = useState([]);
@@ -114,14 +115,10 @@ const Campania = () => {
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
-  //Funcion para abrir y cerrar el navbar
-  //const[sideBar, setSidebar] = useState(false);
 
   const [sideBar, setSidebar] = useState(false);
 
   const toggleSideBar = (opcion) => {
-    //Le pasamos el parametro para que se actualicee
-
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
   };
@@ -154,7 +151,10 @@ const Campania = () => {
 
   let url = "";
   const eliminarCampania = async () => {
-    url = (await getUrlServer()) + "/mercadeo/api/campania/" + idCampania; //Se le agrega el id del usaurio
+
+    let idC = idCampania.replace(/-/g, "")
+
+    url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
 
     tokenUsuario = await getUserSesion("token");
 
@@ -166,27 +166,24 @@ const Campania = () => {
     };
 
     const response = await axios.delete(url, { headers });
+    console.log("Borrar: " + url)
+    console.log(response)
   };
 
-  //Va a abrir o cerrar el menu
-  //const [menu, setMenu] = useState(false);
 
   const handleToggle = (opcion, data) => {
-    //Le pasamos el parametro para que se actualicee
+
 
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
 
-    //Al contenido actualizar le debemos poner las opciones
-    //Creame un array nuevo, su contenido es todo lo que tiene users mas lo nuevo
   };
 
-  // Tiene la informacion para mostrar en actualizar, cada posicion representa un recuadro.
+
   const [info, setInfo] = useState(null);
 
   return (
     <div>
-      {/*Aca se debe cambiar la opcion y recibe un id para el actualizar y eliminar*/}
       <SideBar
         sideBar={sideBar}
         opcion={opcion}
@@ -207,7 +204,6 @@ const Campania = () => {
                 className="mb-3 open-menu"
                 onClick={(e) => toggleSideBar("Agregar", e)}
               >
-                {/* <i className="bi bi-calendar-event w-25 text-primary mr-2"></i> */}
                 <i class="bi bi-plus-circle mr-2"></i>
                 Agregar
               </CButton>
@@ -217,7 +213,6 @@ const Campania = () => {
                 striped
                 items={data}
                 fields={campos}
-                itemsPerPage={5}
                 pagination
                 scopedSlots={{
                   nombre_Campania: (item) => (
@@ -249,35 +244,9 @@ const Campania = () => {
                       </div>
                     </td>
                   ),
-
                   fecha_Actualizacion: (item) => (
                     <td className="">
-                      {/* <div className={opciones ? "opciones--open" : "opciones"}> */}
 
-                      <Options
-                        p={
-                          item.id_Campania == idCampania && opciones == true
-                            ? true
-                            : false
-                        }
-                        id={item.idCampania}
-                        handleToggle={handleToggle}
-                      />
-
-                      {/* Cambia el estado de opciones */}
-                      {/* <i class="bi bi-three-dots" onClick={(e) => toggleOpciones(item.id_Campania, e)}></i>  */}
-                      <i
-                        class="bi bi-three-dots"
-                        onClick={() =>
-                          toggleOpciones(
-                            item.id_Campania,
-                            item.nombre_Campania,
-                            item.descripcion,
-                            item.fecha_Inicial,
-                            item.fecha_Final
-                          )
-                        }
-                      ></i>
 
                       <div className="d-flex mt-1">
                         <div className="text-center mr-2">
@@ -297,6 +266,44 @@ const Campania = () => {
                       </div>
                     </td>
                   ),
+                  opciones: (item) =>(
+                    <td className="">
+                      <Options
+                        p={
+                          item.id_Campania == idCampania && opciones == true
+                            ? true
+                            : false
+                        }
+                        id={item.idCampania}
+                        handleToggle={handleToggle}
+                        eliminarCampania={eliminarCampania}
+                      />
+
+                     
+
+                      <div className="text-center d-flex mt-1">
+
+                        <div className=" mr-2">
+                        <i
+                        class="bi bi-three-dots"
+                        onClick={() =>
+                          toggleOpciones(
+                            // corregir datos
+                            item.id_Campania,
+                            item.nombre_Campania,
+                            item.descripcion,
+                            item.fecha_Inicial,
+                            item.fecha_Final
+                          )
+                        }
+                      ></i>
+                   
+                        </div>
+                      </div>
+                    </td>
+                  )
+
+
                 }}
               />
             </CCardBody>
