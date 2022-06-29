@@ -8,7 +8,6 @@ import {
   CButton,
   CForm,
   CLabel,
-  CFormText,
   CInput,
   CFormGroup,
 } from "@coreui/react";
@@ -63,20 +62,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
     console.log(response);
   };
 
-  const eliminar = async () => {
-    id = id.replace(/-/g, "");
-    cerrar();
-    url = (await getUrlServer()) + `/mercadeo/api/campania/${id}/`;
-    tokenUsuario = await getUserSesion("token");
-    const headers = {
-      Authorization: `Bearer ${tokenUsuario}`,
-      "Content-Type": "application/json",
-    };
-
-    const response = await axios.delete(url, { headers });
-    console.log(response);
-  };
-
   //Metodo para identificar que operacion se va a ejecutar
   //Se esta ejecutando para agregar y actualizar correctamente
   const ejecutar = async () => {
@@ -87,7 +72,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
     }
   };
 
-  // Se pondran los valores
+  // Se pondran los valores a actualizar en los campos
   useEffect(() => {
     if (opcion == "Actualizar") {
       setCampania(info.segundo);
@@ -99,12 +84,9 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
 
   return (
     <div className={sideBar ? "sideBar sideBar--open" : "sideBar"}>
-      
       <h4>{opcion}</h4>
-      
       <CForm action="" method="post">
         <CFormGroup>
-
           <CLabel htmlFor="campania">Campaña</CLabel>
            <CInput
             id="campania"
@@ -114,7 +96,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             defaultValue={opcion == "Actualizar" ? campania : null}
           /> 
         </CFormGroup>
-
         <CFormGroup>
           <CLabel htmlFor="descripcion">Descripcion</CLabel>
           <textarea
@@ -126,7 +107,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             defaultValue = {opcion == "Actualizar" ? descripcion : null}    
           ></textarea>
         </CFormGroup>
-
         <CFormGroup>
           <CLabel htmlFor="fechaInicial">Fecha inicial</CLabel>
           <CInput
@@ -137,7 +117,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             defaultValue = {opcion == "Actualizar" ? fechaInicial : null}              
           />
         </CFormGroup>
-
         <CFormGroup>
           <CLabel htmlFor="fechaFinal">Fecha final</CLabel>
           <br />
@@ -148,10 +127,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             autoComplete="current-password"
             onChange={({ target }) => setfechaFinal(target.value)}
             defaultValue = {opcion == "Actualizar" ? fechaFinal : null}  
-            
           />
         </CFormGroup>
-
         <CFormGroup>
           <CLabel htmlFor="estado">Estado</CLabel>
           <br />
@@ -161,7 +138,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             <option value="Inactivo">Inactivo</option>
           </select>
         </CFormGroup>
-
         <div className="d-flex justify-content-center">
           <CButton color="success" onClick={ejecutar} className="mr-2">
             {opcion}

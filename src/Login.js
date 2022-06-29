@@ -30,14 +30,19 @@ import {
 } from '@coreui/react'
 
 const Login = () => {
-  let history = useHistory()
+
+  /*Datos
+    User: 227282
+    pass: R@f1t4
+  */
+
+  //Si no pude ingresar poner alerta de contraseña incorrecta!
 
   const [username, setUsuario] = useState('')
   const [password, setClave] = useState('')
+  const [error, guardarError] = useState(false); //Nos indica que hubo un error
 
-
-  const [visible, setVisible] = React.useState(8) //Visibilidad para las alertas
-  const [error, guardarError] = useState(false);
+  let history = useHistory()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -72,20 +77,6 @@ const Login = () => {
     }
   }
 
-
-  const Error = () => {
-
-    return(
-    
-      <CAlert color="danger" variant="solid" closeButton>Datos incorrectos!</CAlert>
-    
-    ) 
-  }
-
-  /*Datos
-    User: 227282
-    pass: R@f1t4
-  */
 
   return (
     <div className="c-app  flex-row align-items-center bg-image" >

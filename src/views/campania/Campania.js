@@ -1,37 +1,61 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
 import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
 import { SideBar } from "../../../src/views/base/navs/SideBar.js";
 import { Options } from "../../../src/views/base/options/Option.js";
-
 import { Eliminar } from "../../../src/views/base/alertas/Eliminar.js";
 
 import {
   CButton,
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
   CDataTable,
-  CRow,
-  CPagination,
+  CRow
 } from "@coreui/react";
 
-// import '../src/css/campanias.css'
-import "bootstrap-icons/font/bootstrap-icons.css";
-
 import "../../css/campania.css";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Campania = () => {
 
+  const [data, setData] = useState([]);
+  const [opcion, setOpcion] = useState([]);
+  const [eliminar, setEliminar] = useState(false) //Nos guarda si el usario desea eliminar o no
+  const [info, setInfo] = useState(null); //Los datos del elemento a editar
+  const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
+  const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
+  const [idCampania, setIdCampania] = useState("0"); //Se guarda el id de la campaña seleccionada
+
+  const history = useHistory(); //Nos sirve para redireccionar
+
   var tokenUsuario = null;
   var isLogged = false;
+
+  const toggleElimnar = () => {
+    setEliminar((prevState) => !prevState); 
+  };
+  
+  const toggleSideBar = (opcion) => {
+    setSidebar((prevState) => !prevState);
+    setOpcion(opcion);
+  };
+
+  const toggle = () => {
+    setSidebar((prevState) => !prevState);
+  };
+
+  //ERROR - Metodo repetido, buscar como quitarlo!
+  const handleToggle = (opcion, data) => {
+    setSidebar((prevState) => !prevState);
+    setOpcion(opcion);
+  };
+
   // Nos muestra los campos que se van a mostrar en la tabla
   const campos = [
     {
@@ -47,39 +71,26 @@ const Campania = () => {
     "opciones"
   ];
 
-  const [data, setData] = useState([]);
-  const [opcion, setOpcion] = useState([]);
-  const [eliminar, setEliminar] = useState(false) //Nos guarda si el usario desea eliminar o no
-
-  const toggleElimnar = () => {
-    setEliminar((prevState) => !prevState); 
-  
-  };
-
   const validarSesion = async () => {
     isLogged = await getUserSesion("isLogged");
     tokenUsuario = await getUserSesion("token");
     console.log(`isLogged ESM-> ${isLogged}`);
     console.log(`Token -> ${tokenUsuario}`);
-
     if (isLogged) {
       getData();
     } else {
       // Debe volver al login
       console.log("No esta logged y debe volver al login...");
-
       history.push("/login");
     }
   };
 
-  // Se carga la informacion
   const getData = async () => {
     const url = await getUrlServer();
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
-
     axios
       .get(`${url}/mercadeo/api/dataGridCampanias/`, { headers })
       .then((res) => {
@@ -90,50 +101,11 @@ const Campania = () => {
         console.log(data);
       });
   };
-
-  useEffect(() => {
-    validarSesion();
-  }, []);
-
-  const history = useHistory();
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
-
-  const pageChange = (newPage) => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`);
-  };
-
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage);
-  }, [currentPage, page]);
-
-
-  const [sideBar, setSidebar] = useState(false);
-
-  const toggleSideBar = (opcion) => {
-    setSidebar((prevState) => !prevState);
-    setOpcion(opcion);
-  };
-
-  const toggle = () => {
-    setSidebar((prevState) => !prevState);
-    
-  };
-  // Metodos que se pasaron al option
-  const [opciones, setOpciones] = useState(false);
-
-  const [idCampania, setIdCampania] = useState("000");
-
-  let idv = "0";
+  
+  //ERROR - encontrar forma de pasar todos los datos, no de esta forma
   const toggleOpciones = (id, dos, tres, cuatro, cinco) => {
     setOpciones((prevState) => !prevState);
-
-    idv = id;
     setIdCampania(id);
-
-    //Se va a poner la informacion de todos los elementos
-
     setInfo({
       primero: id,
       segundo: dos,
@@ -143,10 +115,10 @@ const Campania = () => {
     });
   };
 
-  let url = "";
   const eliminarCampania = async () => {
+    alert("Se elimino, aun no funciona esto")
     let idC = idCampania.replace(/-/g, "")
-    url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
+    let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
 
@@ -160,17 +132,17 @@ const Campania = () => {
     console.log(response)
   };
 
-  const handleToggle = (opcion, data) => {
-    setSidebar((prevState) => !prevState);
-    setOpcion(opcion);
-  };
-
-
-  const [info, setInfo] = useState(null);
+  // Antes de mostar datos se validara la sesion
+  useEffect(() => {
+    validarSesion();
+  }, []);
 
   return (
     <div className="side">
-      <Eliminar eliminar={eliminar} toggleElimnar={toggleElimnar}/>
+      <Eliminar 
+        eliminar={eliminar} 
+        toggleElimnar={toggleElimnar}
+        eliminarCampania={eliminarCampania}/>
       <SideBar
         sideBar={sideBar}
         opcion={opcion}
@@ -256,7 +228,9 @@ const Campania = () => {
                     <td className="">
                       <Options
                         //Funcionalidad para abrir o cerrar componente
-                        p={
+                        //me toma el objeto que le demos click en los 
+                        //3 putnos
+                        abrirOptions={
                           item.id_Campania == idCampania && opciones == true
                             ? true
                             : false
@@ -266,10 +240,7 @@ const Campania = () => {
                         eliminarCampania={eliminarCampania}
                         toggleEliminar={toggleElimnar}
                       />
-
-                      <div className="">
-
-                        <div className="mr-2 puntos">
+                      <div className="mr-2 puntos">
                         <i
                         class="bi bi-three-dots"
                         onClick={() =>
@@ -282,12 +253,9 @@ const Campania = () => {
                           )
                         }
                       ></i>
-                   
-                        </div>
                       </div>
                     </td>
                   )
-
                 }}
               />
             </CCardBody>
