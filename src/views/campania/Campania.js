@@ -29,23 +29,10 @@ import "../../css/campania.css";
 
 
 const Campania = () => {
-  const getBadge = (status) => {
-    switch (status) {
-      case "Active":
-        return "success";
-      case "Inactive":
-        return "secondary";
-      case "Pending":
-        return "warning";
-      case "Banned":
-        return "danger";
-      default:
-        return "primary";
-    }
-  };
 
   var tokenUsuario = null;
   var isLogged = false;
+  // Nos muestra los campos que se van a mostrar en la tabla
   const campos = [
     {
       key: "nombre_Campania",
@@ -61,17 +48,20 @@ const Campania = () => {
   ];
 
   const [data, setData] = useState([]);
-
   const [opcion, setOpcion] = useState([]);
+  const [eliminar, setEliminar] = useState(false) //Nos guarda si el usario desea eliminar o no
+
+  const toggleElimnar = () => {
+    setEliminar((prevState) => !prevState); 
+  
+  };
 
   const validarSesion = async () => {
     isLogged = await getUserSesion("isLogged");
     tokenUsuario = await getUserSesion("token");
-
     console.log(`isLogged ESM-> ${isLogged}`);
     console.log(`Token -> ${tokenUsuario}`);
 
-    //Si hay un token ponerlo!
     if (isLogged) {
       getData();
     } else {
@@ -155,13 +145,9 @@ const Campania = () => {
 
   let url = "";
   const eliminarCampania = async () => {
-
     let idC = idCampania.replace(/-/g, "")
-
     url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
-
     tokenUsuario = await getUserSesion("token");
-
     console.log(`Token -> ${tokenUsuario}`);
 
     const headers = {
@@ -174,21 +160,17 @@ const Campania = () => {
     console.log(response)
   };
 
-
   const handleToggle = (opcion, data) => {
-
-
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
-
   };
 
 
   const [info, setInfo] = useState(null);
 
   return (
-    <div>
-      <Eliminar/>
+    <div className="side">
+      <Eliminar eliminar={eliminar} toggleElimnar={toggleElimnar}/>
       <SideBar
         sideBar={sideBar}
         opcion={opcion}
@@ -282,6 +264,7 @@ const Campania = () => {
                         id={item.idCampania}
                         handleToggle={handleToggle}
                         eliminarCampania={eliminarCampania}
+                        toggleEliminar={toggleElimnar}
                       />
 
                       <div className="">

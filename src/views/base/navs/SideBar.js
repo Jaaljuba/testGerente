@@ -168,12 +168,9 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
           </CButton>
           <CButton color="danger" onClick={cerrar} className="ml-2">
             Cancelar
-          </CButton>
-
-          
+          </CButton>         
         </div>
-      </CForm>
-      
+      </CForm>      
     </div>
   );
 };

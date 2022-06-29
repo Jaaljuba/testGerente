@@ -1,24 +1,22 @@
-.sideBar{
-
-    
+.sideBar{     
     position: absolute;
     right: 0;
-    background-color: #BDBDC1;
+    background-color: white;
     color: black;  
-    height: 80%;
+    height:100%;
     z-index: 999;
-    width: 500px;
-    transform: translateX(100%);
+    width: 35%;
+    transform: translateX(110%);
     transition: all 0.4s;
     border-radius: 5px;
-    padding: 35px;
+    padding: 2% 3% 2% 3%;
     transition: all 0.5s ease-out;
     box-shadow: -5px 5px 5px #999;
 }
 
 .sideBar--open{
     
-    transform: translateX(0%);
+    transform: translateX(6%);
     
 }
 

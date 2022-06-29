@@ -10,7 +10,7 @@ export const Options = (props) => {
         <div className={p ? "opciones--open" : "opciones"}>                             
             <p className="opt"><i className="bi bi-eye mr-2 opt" />Ver</p>
             <p className="opt" onClick={() => props.handleToggle("Actualizar")}><i className="bi bi-pencil mr-2 opt"  />Editar</p>
-            <p className="opt" onClick={() => props.eliminarCampania()}><i className="bi bi-trash mr-2 "/>Eliminar</p>
+            <p className="opt" onClick={() => props.toggleEliminar()}><i className="bi bi-trash mr-2 "/>Eliminar</p>
         </div>
     )
 }
