@@ -8,6 +8,8 @@ import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
 import { SideBar } from "../../../src/views/base/navs/SideBar.js";
 import { Options } from "../../../src/views/base/options/Option.js";
 
+import { Eliminar } from "../../../src/views/base/alertas/Eliminar.js";
+
 import {
   CButton,
   CBadge,
@@ -24,6 +26,7 @@ import {
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import "../../css/campania.css";
+
 
 const Campania = () => {
   const getBadge = (status) => {
@@ -125,6 +128,7 @@ const Campania = () => {
 
   const toggle = () => {
     setSidebar((prevState) => !prevState);
+    
   };
   // Metodos que se pasaron al option
   const [opciones, setOpciones] = useState(false);
@@ -184,6 +188,7 @@ const Campania = () => {
 
   return (
     <div>
+      <Eliminar/>
       <SideBar
         sideBar={sideBar}
         opcion={opcion}
@@ -247,7 +252,6 @@ const Campania = () => {
                   fecha_Actualizacion: (item) => (
                     <td className="">
 
-
                       <div className="d-flex mt-1">
                         <div className="text-center mr-2">
                           <i className="bi bi-calendar-event w-25"></i>
@@ -269,6 +273,7 @@ const Campania = () => {
                   opciones: (item) =>(
                     <td className="">
                       <Options
+                        //Funcionalidad para abrir o cerrar componente
                         p={
                           item.id_Campania == idCampania && opciones == true
                             ? true
@@ -279,16 +284,13 @@ const Campania = () => {
                         eliminarCampania={eliminarCampania}
                       />
 
-                     
+                      <div className="">
 
-                      <div className="text-center d-flex mt-1">
-
-                        <div className=" mr-2">
+                        <div className="mr-2 puntos">
                         <i
                         class="bi bi-three-dots"
                         onClick={() =>
                           toggleOpciones(
-                            // corregir datos
                             item.id_Campania,
                             item.nombre_Campania,
                             item.descripcion,
@@ -302,7 +304,6 @@ const Campania = () => {
                       </div>
                     </td>
                   )
-
 
                 }}
               />

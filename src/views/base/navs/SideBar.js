@@ -99,63 +99,63 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
 
   return (
     <div className={sideBar ? "sideBar sideBar--open" : "sideBar"}>
+      
       <h4>{opcion}</h4>
+      
       <CForm action="" method="post">
         <CFormGroup>
-          <CInput
-            label="Nombre campaña: "
-           
+
+          <CLabel htmlFor="campania">Campaña</CLabel>
+           <CInput
+            id="campania"
+            type="text"
             placeholder="Nombre de la campaña"
             onChange={({ target }) => setCampania(target.value)}
-            value={campania}
-
-
-            
-          />
+            defaultValue={opcion == "Actualizar" ? campania : null}
+          /> 
         </CFormGroup>
 
         <CFormGroup>
-          <CLabel htmlFor="nf-email">Descripcion</CLabel>
+          <CLabel htmlFor="descripcion">Descripcion</CLabel>
           <textarea
+            id="descripcion"
             class="form-control"
             aria-label="With textarea"
-            placeholder={ opcion == "Actualizar" ? descripcion : "Digite la descripcion de la campaña"}
-            onChange={({ target }) => setDescripcion(target.value)}
-         
+            placeholder="Digite la descripcion de la campaña"
+            onChange={({ target }) => setDescripcion(target.value)}   
+            defaultValue = {opcion == "Actualizar" ? descripcion : null}    
           ></textarea>
         </CFormGroup>
 
         <CFormGroup>
-          <CLabel htmlFor="nf-password">Fecha inicial</CLabel>
+          <CLabel htmlFor="fechaInicial">Fecha inicial</CLabel>
           <CInput
             type="date"
-            id="nf-password"
-            name="nf-password"
+            id="fechaInicial"
             placeholder={ opcion == "Actualizar" ? fechaInicial : "Seleccione una fecha"}
-            autoComplete="current-password"
             onChange={({ target }) => setfechaInicial(target.value)}
-              
+            defaultValue = {opcion == "Actualizar" ? fechaInicial : null}              
           />
         </CFormGroup>
 
         <CFormGroup>
-          <CLabel htmlFor="nf-password">Fecha final</CLabel>
+          <CLabel htmlFor="fechaFinal">Fecha final</CLabel>
           <br />
           <CInput
             type="date"
-            id="nf-password"
-            name="nf-password"
+            id="fechaFinal"
             placeholder={ opcion == "Actualizar" ? fechaInicial : "Seleccione una fecha"}
             autoComplete="current-password"
             onChange={({ target }) => setfechaFinal(target.value)}
+            defaultValue = {opcion == "Actualizar" ? fechaFinal : null}  
             
           />
         </CFormGroup>
 
         <CFormGroup>
-          <CLabel htmlFor="nf-password">Estado</CLabel>
+          <CLabel htmlFor="estado">Estado</CLabel>
           <br />
-          <select name="cars">
+          <select name="cars" id="estado">
             <option value="Activo">Activo</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Inactivo">Inactivo</option>
@@ -169,8 +169,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
           <CButton color="danger" onClick={cerrar} className="ml-2">
             Cancelar
           </CButton>
+
+          
         </div>
       </CForm>
+      
     </div>
   );
 };

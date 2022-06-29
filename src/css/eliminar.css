@@ -1,0 +1,26 @@
+.eliminar{
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    padding: 1%;
+    margin: 0 auto;
+    width: 30%;
+    border-radius: 5px;
+    background-color: #BDBDC1;
+    transition: all 0.5s ease-out;
+    box-shadow: -5px 5px 5px #999;
+    visibility: hidden;
+    
+}
+
+.titulo_eliminar{
+    margin-bottom: 15px;
+}
+
+.si{
+    width: 50%;
+}
+
+.no{
+    width: 50%;
+}
