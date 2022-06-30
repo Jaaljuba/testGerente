@@ -23,6 +23,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
   const [descripcion, setDescripcion] = useState("");
   const [fechaInicial, setfechaInicial] = useState("");
   const [fechaFinal, setfechaFinal] = useState("");
+  const[opcionFuncion, setOpcionFuncion] = useState("")
 
   const crear = async () => {
     cerrar();
@@ -76,8 +77,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
   };
 
   //Me deja los valores por defecto
-  const defectoCampos = () =>{
-  
+  const refrescarFormularios = () =>{
+   
+    document.getElementById("formulario").reset();
+   
+     
   }
 
   // Se pondran los valores a actualizar en los campos
@@ -88,32 +92,39 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       setfechaInicial(info.fechaInicial);
       setfechaFinal(info.fechaFinal);     
     }
+    else{
+      setCampania(null);
+      setDescripcion(null);
+      setfechaInicial(null);
+      setfechaFinal(null);    
+    }
+
+    setOpcionFuncion(opcion)
   });
 
   return (
     <div className={sideBar ? "sideBar sideBar--open" : "sideBar"}>
       <h4>{opcion}</h4>
-      <CForm action="" method="post">
+      <CForm action="" method="post" id="formulario">
         <CFormGroup>
           <CLabel htmlFor="campania">Campaña</CLabel>
            <CInput
             id="campania"
             type="text"
-            placeholder="Nombre de la campaña"
-            
+            placeholder="Nombre de la campaña"  
             defaultValue={opcion == "Actualizar" ? campania : null}
           /> 
         </CFormGroup>
         <CFormGroup>
           <CLabel htmlFor="descripcion">Descripcion</CLabel>
-          <textarea
+          <CInput
             id="descripcion"
             type="text"
-            class="form-control"
+            class="form-controll"
             placeholder="Digite la descripcion de la campaña"
             // onChange={({ target }) => setDescripcion(target.value)}   
-            defaultValue = {opcion == "Actualizar" ? info.descripcion : null}    
-          ></textarea>
+            defaultValue = {opcion == "Actualizar" ? descripcion : null}    
+          ></CInput>
         </CFormGroup>
         <CFormGroup>
           <CLabel htmlFor="fechaInicial">Fecha inicial</CLabel>
@@ -147,7 +158,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
           <CButton color="success" onClick={ejecutar} className="mr-2">
             {opcion}
           </CButton>
-          <CButton color="danger" onClick={cerrar} className="ml-2">
+          <CButton color="danger" onClick={() =>
+            {cerrar(); 
+            refrescarFormularios()
+            }} 
+            className="ml-2">
             Cancelar
           </CButton>         
         </div>
