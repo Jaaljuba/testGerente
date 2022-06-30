@@ -35,3 +35,9 @@ select{
     color: #7681A0;
     border: none;
 }
+
+.form-controll{
+    height: 100px;
+    width: 100%;
+    padding-left: 10px;
+}

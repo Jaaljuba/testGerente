@@ -12,7 +12,10 @@ import {
   CFormGroup,
 } from "@coreui/react";
 
-export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
+export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
+
+  //En info ya me llega la informacion como objeto
+
   let url;
   let tokenUsuario = null;
 
@@ -72,13 +75,18 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
     }
   };
 
+  //Me deja los valores por defecto
+  const defectoCampos = () =>{
+  
+  }
+
   // Se pondran los valores a actualizar en los campos
   useEffect(() => {
     if (opcion == "Actualizar") {
-      setCampania(info.segundo);
-      setDescripcion(info.tercero);
-      setfechaInicial(info.cuarto);
-      setfechaFinal(info.quinto);
+      setCampania(info.campania);
+      setDescripcion(info.descripcion);
+      setfechaInicial(info.fechaInicial);
+      setfechaFinal(info.fechaFinal);     
     }
   });
 
@@ -92,7 +100,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
             id="campania"
             type="text"
             placeholder="Nombre de la campaña"
-            onChange={({ target }) => setCampania(target.value)}
+            
             defaultValue={opcion == "Actualizar" ? campania : null}
           /> 
         </CFormGroup>
@@ -100,11 +108,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
           <CLabel htmlFor="descripcion">Descripcion</CLabel>
           <textarea
             id="descripcion"
+            type="text"
             class="form-control"
-            aria-label="With textarea"
             placeholder="Digite la descripcion de la campaña"
-            onChange={({ target }) => setDescripcion(target.value)}   
-            defaultValue = {opcion == "Actualizar" ? descripcion : null}    
+            // onChange={({ target }) => setDescripcion(target.value)}   
+            defaultValue = {opcion == "Actualizar" ? info.descripcion : null}    
           ></textarea>
         </CFormGroup>
         <CFormGroup>
@@ -112,7 +120,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
           <CInput
             type="date"
             id="fechaInicial"
-            placeholder={ opcion == "Actualizar" ? fechaInicial : "Seleccione una fecha"}
             onChange={({ target }) => setfechaInicial(target.value)}
             defaultValue = {opcion == "Actualizar" ? fechaInicial : null}              
           />
@@ -123,10 +130,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info }) => {
           <CInput
             type="date"
             id="fechaFinal"
-            placeholder={ opcion == "Actualizar" ? fechaInicial : "Seleccione una fecha"}
-            autoComplete="current-password"
             onChange={({ target }) => setfechaFinal(target.value)}
-            defaultValue = {opcion == "Actualizar" ? fechaFinal : null}  
+            defaultValue = {opcion == "Actualizar" ? fechaFinal : null}     
           />
         </CFormGroup>
         <CFormGroup>

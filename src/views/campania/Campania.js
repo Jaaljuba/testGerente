@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
@@ -16,21 +16,32 @@ import {
   CCardHeader,
   CCol,
   CDataTable,
-  CRow
+  CRow,
 } from "@coreui/react";
 
 import "../../css/campania.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Campania = () => {
+  //Metodo constructor de las campañas. Con esto le pasamos los datos a editar.
 
   const [data, setData] = useState([]);
   const [opcion, setOpcion] = useState([]);
-  const [eliminar, setEliminar] = useState(false) //Nos guarda si el usario desea eliminar o no
-  const [info, setInfo] = useState(null); //Los datos del elemento a editar
+  const [eliminar, setEliminar] = useState(false); //Nos guarda si el usario desea eliminar o no
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
   const [idCampania, setIdCampania] = useState("0"); //Se guarda el id de la campaña seleccionada
+  //Objeto campania a editar
+
+  const [info, setInfo] = useState(null);
+  let campaniaInfo = {
+    id: "",
+    campania: "",
+    descripcion: "",
+    fechaInicial: "",
+    fechaFinal: "",
+    estado: "",
+  };
 
   const history = useHistory(); //Nos sirve para redireccionar
 
@@ -38,9 +49,9 @@ const Campania = () => {
   var isLogged = false;
 
   const toggleElimnar = () => {
-    setEliminar((prevState) => !prevState); 
+    setEliminar((prevState) => !prevState);
   };
-  
+
   const toggleSideBar = (opcion) => {
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
@@ -68,7 +79,7 @@ const Campania = () => {
       key: "fecha_Actualizacion",
       label: "Actualizacion",
     },
-    "opciones"
+    "opciones",
   ];
 
   const validarSesion = async () => {
@@ -101,23 +112,18 @@ const Campania = () => {
         console.log(data);
       });
   };
-  
-  //ERROR - encontrar forma de pasar todos los datos, no de esta forma
-  const toggleOpciones = (id, dos, tres, cuatro, cinco) => {
-    setOpciones((prevState) => !prevState);
-    setIdCampania(id);
-    setInfo({
-      primero: id,
-      segundo: dos,
-      tercero: tres,
-      cuarto: cuatro,
-      quinto: cinco,
-    });
+
+  // Cuando le damos click a opciones le pasamos la info
+  const toggleOpciones = () => {  
+    setIdCampania(campaniaInfo.id);
+    setOpciones((prevState) => !prevState);  
+    setInfo(campaniaInfo) 
+
   };
 
   const eliminarCampania = async () => {
-    alert("Se elimino, aun no funciona esto")
-    let idC = idCampania.replace(/-/g, "")
+    alert("Se elimino, aun no funciona esto");
+    let idC = idCampania.replace(/-/g, "");
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
@@ -128,8 +134,8 @@ const Campania = () => {
     };
 
     const response = await axios.delete(url, { headers });
-    console.log("Borrar: " + url)
-    console.log(response)
+    console.log("Borrar: " + url);
+    console.log(response);
   };
 
   // Antes de mostar datos se validara la sesion
@@ -139,16 +145,18 @@ const Campania = () => {
 
   return (
     <div className="side">
-      <Eliminar 
-        eliminar={eliminar} 
+      <Eliminar
+        eliminar={eliminar}
         toggleElimnar={toggleElimnar}
-        eliminarCampania={eliminarCampania}/>
+        eliminarCampania={eliminarCampania}
+      />
       <SideBar
         sideBar={sideBar}
         opcion={opcion}
         cerrar={toggle}
         id={idCampania}
         info={info}
+        no = {campaniaInfo.id}
       />
       <CRow xl={12} className="d-flex justify-content-center">
         <CCol xl={7} className="">
@@ -205,7 +213,6 @@ const Campania = () => {
                   ),
                   fecha_Actualizacion: (item) => (
                     <td className="">
-
                       <div className="d-flex mt-1">
                         <div className="text-center mr-2">
                           <i className="bi bi-calendar-event w-25"></i>
@@ -224,11 +231,11 @@ const Campania = () => {
                       </div>
                     </td>
                   ),
-                  opciones: (item) =>(
+                  opciones: (item) => (
                     <td className="">
                       <Options
                         //Funcionalidad para abrir o cerrar componente
-                        //me toma el objeto que le demos click en los 
+                        //me toma el objeto que le demos click en los
                         //3 putnos
                         abrirOptions={
                           item.id_Campania == idCampania && opciones == true
@@ -242,20 +249,25 @@ const Campania = () => {
                       />
                       <div className="mr-2 puntos">
                         <i
-                        class="bi bi-three-dots"
-                        onClick={() =>
-                          toggleOpciones(
-                            item.id_Campania,
-                            item.nombre_Campania,
-                            item.descripcion,
-                            item.fecha_Inicial,
-                            item.fecha_Final
-                          )
-                        }
-                      ></i>
+                          class="bi bi-three-dots"
+                          onClick={() =>
+                            { 
+                              // se pasa la info mediante un objeto
+                              campaniaInfo.id = item.id_Campania;
+                              campaniaInfo.campania = item.nombre_Campania;
+                              campaniaInfo.descripcion =item.descripcion;
+                              campaniaInfo.fechaInicial =item.fecha_Inicial;
+                              campaniaInfo.fechaFinal = item.fecha_Final;
+
+                              toggleOpciones();  
+                            }
+                          }
+                          
+                        ></i>
                       </div>
+                      
                     </td>
-                  )
+                  ),
                 }}
               />
             </CCardBody>
