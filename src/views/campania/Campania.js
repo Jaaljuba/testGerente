@@ -262,10 +262,8 @@ const Campania = () => {
                               toggleOpciones();  
                             }
                           }
-                          
                         ></i>
                       </div>
-                      
                     </td>
                   ),
                 }}

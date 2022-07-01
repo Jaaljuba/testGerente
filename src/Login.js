@@ -28,13 +28,14 @@ import {
   CProgress
   
 } from '@coreui/react'
+import { Ingreso } from './views/base/alertas/Ingreso';
 
 const Login = () => {
 
   /*Datos
     User: 227282
     pass: R@f1t4
-  */
+  */  
 
   //Si no pude ingresar poner alerta de contraseña incorrecta!
 
@@ -72,8 +73,7 @@ const Login = () => {
       //Aca se debe crear una ventana de error!
       setUserSesion("isLogged", false)
       setUserSesion("token", null)
-
-      guardarError(false);
+      guardarError(true);
     }
   }
 
@@ -81,6 +81,7 @@ const Login = () => {
   return (
     <div className="c-app  flex-row align-items-center bg-image" >
       <CContainer>
+        <Ingreso open={error}/>
         <CRow className="justify-content-center">
           <CCol md="4">
             <CCardGroup>

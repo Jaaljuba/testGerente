@@ -11,14 +11,15 @@ import {
   CInput,
   CFormGroup,
 } from "@coreui/react";
+import { useSelector } from "react-redux";
 
 export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
 
   //En info ya me llega la informacion como objeto
-
   let url;
   let tokenUsuario = null;
 
+  const [idc, setIdc] = useState("");
   const [campania, setCampania] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [fechaInicial, setfechaInicial] = useState("");
@@ -66,6 +67,20 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
     console.log(response);
   };
 
+  const dameCampania = async (idC) =>{
+    const url = await getUrlServer();
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    axios
+      .get(`${url}/mercadeo/api/dataGridCampanias/${idC}`, { headers })
+      .then((res) => {
+        console.log("Nos muestra la  data");
+        console.log(res);       
+      });
+  }
+
   //Metodo para identificar que operacion se va a ejecutar
   //Se esta ejecutando para agregar y actualizar correctamente
   const ejecutar = async () => {
@@ -73,20 +88,19 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       crear();
     } else {
       actualizar();
+      
     }
   };
 
   //Me deja los valores por defecto
   const refrescarFormularios = () =>{
-   
-    document.getElementById("formulario").reset();
-   
-     
+    document.getElementById("formulario").reset();    
   }
 
   // Se pondran los valores a actualizar en los campos
   useEffect(() => {
     if (opcion == "Actualizar") {
+      setIdc(info.id)
       setCampania(info.campania);
       setDescripcion(info.descripcion);
       setfechaInicial(info.fechaInicial);
@@ -96,7 +110,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       setCampania(null);
       setDescripcion(null);
       setfechaInicial(null);
-      setfechaFinal(null);    
+      setfechaFinal(null); 
+      dameCampania(idc) //Se pone el id seleccionado   
     }
 
     setOpcionFuncion(opcion)
