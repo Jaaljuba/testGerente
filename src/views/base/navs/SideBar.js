@@ -124,16 +124,17 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
   }
 
   // Se pondran los valores a actualizar en los campos
+  //Cada que ocurre un cambio se ejecuta
   useEffect(() => {
-    if (opcion == "Actualizar") {
+    // if (opcion == "Actualizar") {
 
-      setCampaniaa({
-         idd: info.id,
-         campaniaa: info.campania,
-         descripcionn: info.descripcion,
-         fechaIniciall: info.fechaInicial,
-         fechaFinall: info.fechaFinal
-       })
+      // setCampaniaa({
+      //    idd: info.id,
+      //    campaniaa: info.campania,
+      //    descripcionn: info.descripcion,
+      //    fechaIniciall: info.fechaInicial,
+      //    fechaFinall: info.fechaFinal
+      //  })
 
 
       // companiaa.idd = info.id
@@ -147,13 +148,106 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
       // setDescripcion(info.descripcion)
       // setfechaInicial(info.fechaInicial);
       // setfechaFinal(info.fechaFinal);     
-    }
+    // }
 
-    //Metodo a probar
-    // getCampaniaSelect()
-   
+    //Metodo que me trae la informacion del producto seleccionado
+    //getCampaniaSelect()
+    
+    
   });
 
+  //Funcionando
+  const [idd, setIdd] = useState("")
+  //Funcionando
+  const getCampaniaaSelect = async (i) =>{
+
+    tokenUsuario = await getUserSesion("token");
+    const url = await getUrlServer();
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    axios
+      .get(`${url}/mercadeo/api/campania/${i}/`, { headers })
+      .then((res) => {
+        console.log("Nos muestra la data de la campaña seleccionada");
+        console.log(res); 
+        //Cambiamos los valores de la campania
+        console.log("Procedemos a cambiar el valor")
+        setCampaniaa({
+          idd: res.data.id_Campania,
+          campaniaa: res.data.nombre_Campania,
+          descripcionn: res.data.descripcion,
+          fechaIniciall: res.data.fecha_Inicial,
+          fechaFinall: res.data.fecha_Final
+        })
+        console.log(res.data.id_Campania)//De esta forma se llama el valor
+      });
+     
+  }
+
+  //Quiero que cuando ocurra un cambio en la variable id se ejecute el metodo
+  useEffect(() =>{
+
+    //Codigo para el llamado de objetos uno por uno
+    // id = id.replace(/-/g, "");
+    // getCampaniaaSelect(id) 
+    //Codigo para el llamado de objetos uno por uno
+
+
+    //Cuando ocurra un cambio en el id quiero que me recorra todos los datos, me lo 
+    //encuentre, y se modifique el metodo setCampaniaa()
+    console.log("Informacion")
+    //Ya que me llega la data voy a recorrer los objetos hasta que encuentre el id
+
+    data.forEach(p =>{
+       if(id == p.id_Campania){
+          console.log(`id que llega ${id}, id campania ${p.id_Campania}`)
+          setCampaniaa({
+            idd: p.id_Campania,
+            campaniaa: p.nombre_Campania,
+            descripcionn: p.descripcion,
+            fechaIniciall: p.fecha_Inicial,
+            fechaFinall: p.fecha_Final
+          })
+       }
+    })
+    
+
+  }, [id])
+
+
+  //Segunda opcion de la data.
+
+
+  //Simplemente llamo todos los datos y los guardo, despues, se pasa el id, y con ese
+  //id saco el dato que necesito, eso es todo.
+
+  //Pedimos toda la data
+  const[data, setData] = useState([]);
+
+  const getData = async () => {
+    tokenUsuario = await getUserSesion("token");
+    const url = await getUrlServer();
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    axios
+      .get(`${url}/mercadeo/api/dataGridCampanias/`, { headers })
+      .then((res) => {
+        console.log("aca entro a al sidebar");
+        console.log(res);
+        console.log(res.data.results);
+        setData(res.data.results);
+        console.log(data);
+      });
+  };
+
+  useEffect(() =>{
+    console.log("se pidio la dataaa ")
+    getData()
+  }, [])
 
   return (
     <div className={sideBar ? "sideBar sideBar--open" : "sideBar"}>

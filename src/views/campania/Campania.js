@@ -30,7 +30,7 @@ const Campania = () => {
   const [eliminar, setEliminar] = useState(false); //Nos guarda si el usario desea eliminar o no
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
-  const [idCampania, setIdCampania] = useState("0"); //Se guarda el id de la campaña seleccionada
+  const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
   //Objeto campania a editar
 
   const [info, setInfo] = useState(null);
@@ -116,7 +116,6 @@ const Campania = () => {
       });
   };
 
-
   const toggleOpciones = () => {  
     setIdCampania(campaniaInfo.id);
     setOpciones((prevState) => !prevState);  
@@ -141,17 +140,17 @@ const Campania = () => {
   };
 
   //Creamos el metod pedir info de un objeto y justo cuando le demos click en los 3 punto
-  //le enviamos la informacion
+  //le enviamos la informacion.
   const getCampaniaSelect = async () =>{
+    let idkk = idk.replace(/-/g, "");
     tokenUsuario = await getUserSesion("token");
-
     const url = await getUrlServer();
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
     axios
-      .get(`${url}/mercadeo/api/dataGridCampanias/${idk}/`, { headers })
+      .get(`${url}/mercadeo/api/campania/${idkk}/`, { headers })
       .then((res) => {
         console.log("Nos muestra la data de la campaña seleccionada 7/1");
         console.log(res);       
