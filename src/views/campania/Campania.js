@@ -34,6 +34,9 @@ const Campania = () => {
   //Objeto campania a editar
 
   const [info, setInfo] = useState(null);
+
+  const[idk, setIdk] = useState("");
+
   let campaniaInfo = {
     id: "",
     campania: "",
@@ -113,7 +116,7 @@ const Campania = () => {
       });
   };
 
-  // Cuando le damos click a opciones le pasamos la info
+
   const toggleOpciones = () => {  
     setIdCampania(campaniaInfo.id);
     setOpciones((prevState) => !prevState);  
@@ -122,7 +125,6 @@ const Campania = () => {
   };
 
   const eliminarCampania = async () => {
- 
     let idC = idCampania.replace(/-/g, "");
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
@@ -138,6 +140,25 @@ const Campania = () => {
     console.log(response);
   };
 
+  //Creamos el metod pedir info de un objeto y justo cuando le demos click en los 3 punto
+  //le enviamos la informacion
+  const getCampaniaSelect = async () =>{
+    tokenUsuario = await getUserSesion("token");
+
+    const url = await getUrlServer();
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    axios
+      .get(`${url}/mercadeo/api/dataGridCampanias/${idk}/`, { headers })
+      .then((res) => {
+        console.log("Nos muestra la data de la campaña seleccionada 7/1");
+        console.log(res);       
+      });
+  }
+
+
   // Antes de mostar datos se validara la sesion
   useEffect(() => {
     validarSesion();
@@ -149,6 +170,7 @@ const Campania = () => {
         eliminar={eliminar}
         toggleElimnar={toggleElimnar}
         eliminarCampania={eliminarCampania}
+     
       />
       <SideBar
         sideBar={sideBar}
@@ -157,6 +179,7 @@ const Campania = () => {
         id={idCampania}
         info={info}
         no = {campaniaInfo.id}
+        getCampaniaSelect={getCampaniaSelect}
       />
       <CRow xl={12} className="d-flex justify-content-center">
         <CCol xl={7} className="">
@@ -242,6 +265,7 @@ const Campania = () => {
                             ? true
                             : false
                         }
+                        
                         id={item.idCampania}
                         handleToggle={handleToggle}
                         eliminarCampania={eliminarCampania}
@@ -259,7 +283,9 @@ const Campania = () => {
                               campaniaInfo.fechaInicial =item.fecha_Inicial;
                               campaniaInfo.fechaFinal = item.fecha_Final;
 
-                              toggleOpciones();  
+                              toggleOpciones(); 
+                              
+                              setIdk(item.id_Campania)
                             }
                           }
                         ></i>

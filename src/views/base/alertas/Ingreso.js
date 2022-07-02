@@ -4,7 +4,6 @@ import { CButton } from "@coreui/react";
 import '../../../css/ingreso.css'
 //Pop ingreso
 export const Ingreso = (props) => { 
-
     
     return(
     <div className={props.open == true ? "error_open" : "error_close"}>

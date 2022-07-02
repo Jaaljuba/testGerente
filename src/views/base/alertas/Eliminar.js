@@ -5,7 +5,7 @@ import "../../../css/eliminar.css";
 
 export const Eliminar = (props) => {
 
-
+  
   return (
     <div className={props.eliminar == true ? "eliminar" : "eliminar-close"}>
       <h5 className="titulo_eliminar">

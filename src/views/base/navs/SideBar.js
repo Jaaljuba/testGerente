@@ -4,6 +4,8 @@ import { useState } from "react";
 import { getUrlServer, getUserSesion } from "src/GeneralsFunctions";
 import axios from "axios";
 
+
+
 import {
   CButton,
   CForm,
@@ -11,20 +13,20 @@ import {
   CInput,
   CFormGroup,
 } from "@coreui/react";
-import { useSelector } from "react-redux";
 
-export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
+
+export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect }) => {
 
   //En info ya me llega la informacion como objeto
   let url;
   let tokenUsuario = null;
 
-  // const [idc, setIdc] = useState("");
-  // const [campania, setCampania] = useState("");
-  // const [descripcion, setDescripcion] = useState("");
-  // const [fechaInicial, setfechaInicial] = useState("");
-  // const [fechaFinal, setfechaFinal] = useState("");
-  // const[opcionFuncion, setOpcionFuncion] = useState("")
+//   const [idc, setIdc] = useState("");
+//   const [campania, setCampania] = useState("");
+//   const [descripcion, setDescripcion] = useState("");
+// const [fechaInicial, setfechaInicial] = useState("");
+//   const [fechaFinal, setfechaFinal] = useState("");
+//   const[opcionFuncion, setOpcionFuncion] = useState("")
 
   const[companiaa, setCampaniaa] = useState({
     idd: "",
@@ -41,6 +43,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
   const crear = async () => {
     
     cerrar();
+    
+
     url = (await getUrlServer()) + "/mercadeo/api/campania/";
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
@@ -64,7 +68,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
 
   const actualizar = async () => {
 
-    
     console.log("no me la muestra")
     id = id.replace(/-/g, "");
     cerrar();
@@ -87,7 +90,10 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
      //Apenas se edite me debe mostrar la data!
   };
 
+  //Metodo para pedir una campania
   const dameCampania = async (idC) =>{
+    tokenUsuario = await getUserSesion("token");
+
     const url = await getUrlServer();
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
@@ -122,12 +128,14 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
     if (opcion == "Actualizar") {
 
       setCampaniaa({
-        idd: info.id,
-        campaniaa: info.campania,
-        descripcionn: info.descripcion,
-        fechaIniciall: info.fechaInicial,
-        fechaFinall: info.fechaFinal
-      })
+         idd: info.id,
+         campaniaa: info.campania,
+         descripcionn: info.descripcion,
+         fechaIniciall: info.fechaInicial,
+         fechaFinall: info.fechaFinal
+       })
+
+
       // companiaa.idd = info.id
       // companiaa.campaniaa = info.campania
       // companiaa.descripcionn = info.descripcionn
@@ -136,13 +144,13 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
     
       // setIdc(info.id)
       // setCampania(info.campania);
-      // setDescripcion(info.descripcion);
+      // setDescripcion(info.descripcion)
       // setfechaInicial(info.fechaInicial);
       // setfechaFinal(info.fechaFinal);     
     }
-    else{
-   
-    }
+
+    //Metodo a probar
+    // getCampaniaSelect()
    
   });
 
