@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { CButton } from "@coreui/react";
 
 import "../../../css/eliminar.css";
 
 export const Eliminar = (props) => {
 
-  const [open, setOpen] = useState();
 
   return (
     <div className={props.eliminar == true ? "eliminar" : "eliminar-close"}>

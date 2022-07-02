@@ -43,6 +43,10 @@ const Login = () => {
   const [password, setClave] = useState('')
   const [error, guardarError] = useState(false); //Nos indica que hubo un error
 
+  const toogleError = () =>{
+    guardarError((prevState) => !prevState);
+  }
+
   let history = useHistory()
 
   const handleSubmit = async (event) => {
@@ -62,7 +66,7 @@ const Login = () => {
         setUserSesion("isLogged", true)
         setUserSesion("token", token)
 
-        guardarError(true)
+        guardarError(false)
 
         history.push("/dashboard")
       } else {
@@ -81,7 +85,7 @@ const Login = () => {
   return (
     <div className="c-app  flex-row align-items-center bg-image" >
       <CContainer>
-        <Ingreso open={error}/>
+        <Ingreso open={error} toogleError={toogleError}/>
         <CRow className="justify-content-center">
           <CCol md="4">
             <CCardGroup>

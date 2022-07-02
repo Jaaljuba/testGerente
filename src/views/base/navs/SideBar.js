@@ -19,14 +19,27 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
   let url;
   let tokenUsuario = null;
 
-  const [idc, setIdc] = useState("");
-  const [campania, setCampania] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [fechaInicial, setfechaInicial] = useState("");
-  const [fechaFinal, setfechaFinal] = useState("");
-  const[opcionFuncion, setOpcionFuncion] = useState("")
+  // const [idc, setIdc] = useState("");
+  // const [campania, setCampania] = useState("");
+  // const [descripcion, setDescripcion] = useState("");
+  // const [fechaInicial, setfechaInicial] = useState("");
+  // const [fechaFinal, setfechaFinal] = useState("");
+  // const[opcionFuncion, setOpcionFuncion] = useState("")
+
+  const[companiaa, setCampaniaa] = useState({
+    idd: "",
+    campaniaa: "",
+    descripcionn: "",
+    fechaIniciall: "",
+    fechaFinall: ""
+  })
+  
+  const valueToCompania = ({ name, value}) => {
+    setCampaniaa( {...companiaa, [name]: value } );
+  }; 
 
   const crear = async () => {
+    
     cerrar();
     url = (await getUrlServer()) + "/mercadeo/api/campania/";
     tokenUsuario = await getUserSesion("token");
@@ -36,17 +49,23 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       "Content-Type": "application/json",
     };
     const campaniaJson = {
-      nombre_Campania: campania,
-      descripcion: descripcion,
-      fecha_Inicial: fechaInicial,
-      fecha_Final: fechaFinal,
+      nombre_Campania: companiaa.campaniaa,
+      descripcion: companiaa.descripcionn,
+      fecha_Inicial: companiaa.fechaIniciall,
+      fecha_Final: companiaa.fechaFinall,
       estado: "A",
     };
+
     const response = await axios.post(url, campaniaJson, { headers });
+    
     console.log(response);
+   
   };
 
   const actualizar = async () => {
+
+    
+    console.log("no me la muestra")
     id = id.replace(/-/g, "");
     cerrar();
     url = (await getUrlServer()) + `/mercadeo/api/campania/${id}/`;
@@ -57,14 +76,15 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       "Content-Type": "application/json",
     };
     const campaniaJson = {
-      nombre_Campania: campania,
-      descripcion: descripcion,
-      fecha_Inicial: fechaInicial,
-      fecha_Final: fechaFinal,
+      nombre_Campania: companiaa.campaniaa,
+      descripcion: companiaa.descripcionn,
+      fecha_Inicial: companiaa.fechaIniciall,
+      fecha_Final: companiaa.fechaFinall,
       estado: "A",
     };
     const response = await axios.put(url, campaniaJson, { headers });
     console.log(response);
+     //Apenas se edite me debe mostrar la data!
   };
 
   const dameCampania = async (idC) =>{
@@ -74,7 +94,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       "Content-Type": "application/json",
     };
     axios
-      .get(`${url}/mercadeo/api/dataGridCampanias/${idC}`, { headers })
+      .get(`${url}/mercadeo/api/dataGridCampanias/${idC}/`, { headers })
       .then((res) => {
         console.log("Nos muestra la  data");
         console.log(res);       
@@ -88,7 +108,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
       crear();
     } else {
       actualizar();
-      
+      console.log(companiaa);
     }
   };
 
@@ -100,22 +120,32 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
   // Se pondran los valores a actualizar en los campos
   useEffect(() => {
     if (opcion == "Actualizar") {
-      setIdc(info.id)
-      setCampania(info.campania);
-      setDescripcion(info.descripcion);
-      setfechaInicial(info.fechaInicial);
-      setfechaFinal(info.fechaFinal);     
+
+      setCampaniaa({
+        idd: info.id,
+        campaniaa: info.campania,
+        descripcionn: info.descripcion,
+        fechaIniciall: info.fechaInicial,
+        fechaFinall: info.fechaFinal
+      })
+      // companiaa.idd = info.id
+      // companiaa.campaniaa = info.campania
+      // companiaa.descripcionn = info.descripcionn
+      // companiaa.fechaIniciall = info.fechaInicial
+      // companiaa.fechaFinall = info.fechaFinal
+    
+      // setIdc(info.id)
+      // setCampania(info.campania);
+      // setDescripcion(info.descripcion);
+      // setfechaInicial(info.fechaInicial);
+      // setfechaFinal(info.fechaFinal);     
     }
     else{
-      setCampania(null);
-      setDescripcion(null);
-      setfechaInicial(null);
-      setfechaFinal(null); 
-      dameCampania(idc) //Se pone el id seleccionado   
+   
     }
-
-    setOpcionFuncion(opcion)
+   
   });
+
 
   return (
     <div className={sideBar ? "sideBar sideBar--open" : "sideBar"}>
@@ -126,8 +156,10 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
            <CInput
             id="campania"
             type="text"
-            placeholder="Nombre de la campaña"  
-            defaultValue={opcion == "Actualizar" ? campania : null}
+            placeholder="Nombre de la campaña"
+            name="campaniaa"
+            onChange={e  => valueToCompania(e.target)} 
+            defaultValue={opcion == "Actualizar" ? companiaa.campaniaa : null}
           /> 
         </CFormGroup>
         <CFormGroup>
@@ -136,9 +168,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
             id="descripcion"
             type="text"
             class="form-controll"
+            name="descripcionn"
+            onChange={e  => valueToCompania(e.target)}  
             placeholder="Digite la descripcion de la campaña"
             // onChange={({ target }) => setDescripcion(target.value)}   
-            defaultValue = {opcion == "Actualizar" ? descripcion : null}    
+            defaultValue = {opcion == "Actualizar" ? companiaa.descripcionn : null}    
           ></CInput>
         </CFormGroup>
         <CFormGroup>
@@ -146,8 +180,9 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
           <CInput
             type="date"
             id="fechaInicial"
-            onChange={({ target }) => setfechaInicial(target.value)}
-            defaultValue = {opcion == "Actualizar" ? fechaInicial : null}              
+            name="fechaIniciall"
+            onChange={e  => valueToCompania(e.target)} 
+            defaultValue = {opcion == "Actualizar" ? companiaa.fechaIniciall : null}              
           />
         </CFormGroup>
         <CFormGroup>
@@ -156,8 +191,9 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no }) => {
           <CInput
             type="date"
             id="fechaFinal"
-            onChange={({ target }) => setfechaFinal(target.value)}
-            defaultValue = {opcion == "Actualizar" ? fechaFinal : null}     
+            name="fechaFinall"
+            onChange={e  => valueToCompania(e.target)} 
+            defaultValue = {opcion == "Actualizar" ? companiaa.fechaFinall : null}     
           />
         </CFormGroup>
         <CFormGroup>

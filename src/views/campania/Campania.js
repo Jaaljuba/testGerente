@@ -122,7 +122,7 @@ const Campania = () => {
   };
 
   const eliminarCampania = async () => {
-    alert("Se elimino, aun no funciona esto");
+ 
     let idC = idCampania.replace(/-/g, "");
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
