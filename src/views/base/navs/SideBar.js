@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import "../../../../src/css/sideBar.css";
+
 import { useState } from "react";
 import { getUrlServer, getUserSesion } from "src/GeneralsFunctions";
 import axios from "axios";
+
+import "../../../../src/css/sideBar.css";
 
 import {
   CButton,
@@ -204,16 +206,16 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
         </CFormGroup>
         <CFormGroup>
           <CLabel htmlFor="descripcion">Descripcion</CLabel>
-          <CInput
+          <textarea
             id="descripcion"
-            type="text"
-            class="form-controll"
+            type="text" //Text area?
+            class="form-control"
             name="descripcionn"
             onChange={e  => valueToCompania(e.target)}  
             placeholder="Digite la descripcion de la campaña"
             // onChange={({ target }) => setDescripcion(target.value)}   
             defaultValue = {opcion == "Actualizar" ? companiaa.descripcionn : null}    
-          ></CInput>
+          ></textarea>
         </CFormGroup>
         <CFormGroup>
           <CLabel htmlFor="fechaInicial">Fecha inicial</CLabel>

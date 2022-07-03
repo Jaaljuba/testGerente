@@ -31,9 +31,7 @@ class App extends Component {
 
               <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
 
-              {/* <Route path="*"  render={props => <Page404 {...props}/>} />   */}
-
-
+              
             </Switch>
           </React.Suspense>
       </HashRouter>

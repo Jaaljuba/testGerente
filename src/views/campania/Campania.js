@@ -214,7 +214,11 @@ const Campania = () => {
                         <div className="text-left h4 font-weight-bold">
                           {item.nombre_Campania}
                         </div>
-                      </div>
+                                               
+                        {/* <div className="descripcion_campania">
+                          {item.descripcion}
+                        </div>   */}
+                      </div>                 
                     </td>
                   ),
                   fecha_Inicial: (item) => (
@@ -234,6 +238,13 @@ const Campania = () => {
                         <div className="text-center">
                           {moment(item.fecha_Final).format("DD/MM/YYYY")}
                         </div>
+                      </div>
+                    </td>
+                  ),
+                  estado: (item) =>(
+                    <td>
+                      <div className="text-center">
+                          {item.estado}
                       </div>
                     </td>
                   ),
@@ -291,10 +302,16 @@ const Campania = () => {
                           }
                         ></i>
                       </div>
+                      
                     </td>
+
                   ),
+                  
                 }}
+                
               />
+              
+              
             </CCardBody>
           </CCard>
         </CCol>

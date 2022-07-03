@@ -39,7 +39,7 @@
     position: absolute;
     float: right;
     width: 10%;
-    height: 30%;
+    height: 110px;
 
     margin-top: 20px;
     right: 1px;
@@ -64,4 +64,8 @@
 
 .side{
     position: relative;
+}
+
+.descripcion_campania{
+    width: 50%;
 }

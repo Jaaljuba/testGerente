@@ -36,6 +36,8 @@ const TheContent = () => {
                 />
               )
             })}
+            {/* Si el link esta mal me redirigira a /dashboard */}
+            <Redirect from="/" to="/dashboard" />
           </Switch>
         </Suspense>
       </CContainer>
