@@ -31,12 +31,12 @@ const Campania = () => {
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
   const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
-  //Objeto campania a editar
+
 
   const [info, setInfo] = useState(null);
-
   const[idk, setIdk] = useState("");
 
+  //Objeto campania a editar
   let campaniaInfo = {
     id: "",
     campania: "",
@@ -58,18 +58,15 @@ const Campania = () => {
   const toggleSideBar = (opcion) => {
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
+
+    refrescarFormularios() //editado
   };
 
   const toggle = () => {
     setSidebar((prevState) => !prevState);
   };
 
-  //ERROR - Metodo repetido, buscar como quitarlo!
-  const handleToggle = (opcion, data) => {
-    setSidebar((prevState) => !prevState);
-    setOpcion(opcion);
-  };
-
+ 
   // Nos muestra los campos que se van a mostrar en la tabla
   const campos = [
     {
@@ -120,7 +117,6 @@ const Campania = () => {
     setIdCampania(campaniaInfo.id);
     setOpciones((prevState) => !prevState);  
     setInfo(campaniaInfo) 
-
   };
 
   const eliminarCampania = async () => {
@@ -128,12 +124,10 @@ const Campania = () => {
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
-
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
-
     const response = await axios.delete(url, { headers });
     console.log("Borrar: " + url);
     console.log(response);
@@ -157,11 +151,16 @@ const Campania = () => {
       });
   }
 
-
   // Antes de mostar datos se validara la sesion
   useEffect(() => {
     validarSesion();
   }, []);
+
+  const refrescarFormularios = () =>{
+    console.log("entro")
+    console.log(document.getElementById("formulario"))
+    document.getElementById("formulario").reset();    
+  }
 
   return (
     <div className="side">
@@ -169,7 +168,6 @@ const Campania = () => {
         eliminar={eliminar}
         toggleElimnar={toggleElimnar}
         eliminarCampania={eliminarCampania}
-     
       />
       <SideBar
         sideBar={sideBar}
@@ -196,8 +194,8 @@ const Campania = () => {
                 <i class="bi bi-plus-circle mr-2"></i>
                 Agregar
               </CButton>
-
               <CDataTable
+                id="formulario" //Editado
                 hover
                 striped
                 items={data}
@@ -264,9 +262,8 @@ const Campania = () => {
                             ? true
                             : false
                         }
-                        
                         id={item.idCampania}
-                        handleToggle={handleToggle}
+                        handleToggle={toggleSideBar}
                         eliminarCampania={eliminarCampania}
                         toggleEliminar={toggleElimnar}
                       />
@@ -281,9 +278,7 @@ const Campania = () => {
                               campaniaInfo.descripcion =item.descripcion;
                               campaniaInfo.fechaInicial =item.fecha_Inicial;
                               campaniaInfo.fechaFinal = item.fecha_Final;
-
                               toggleOpciones(); 
-                              
                               setIdk(item.id_Campania)
                             }
                           }

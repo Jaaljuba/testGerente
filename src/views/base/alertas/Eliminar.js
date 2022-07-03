@@ -15,7 +15,7 @@ export const Eliminar = (props) => {
         <CButton
           color="success"
           className="mr-2 si"
-          onClick={() => props.eliminarCampania()}
+          onClick={() => {props.eliminarCampania(); props.toggleElimnar()}}
         >
           Si
         </CButton>

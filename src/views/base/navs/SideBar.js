@@ -4,8 +4,6 @@ import { useState } from "react";
 import { getUrlServer, getUserSesion } from "src/GeneralsFunctions";
 import axios from "axios";
 
-
-
 import {
   CButton,
   CForm,
@@ -24,9 +22,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
 //   const [idc, setIdc] = useState("");
 //   const [campania, setCampania] = useState("");
 //   const [descripcion, setDescripcion] = useState("");
-// const [fechaInicial, setfechaInicial] = useState("");
+//   const [fechaInicial, setfechaInicial] = useState("");
 //   const [fechaFinal, setfechaFinal] = useState("");
 //   const[opcionFuncion, setOpcionFuncion] = useState("")
+
+  const[data, setData] = useState([]);
 
   const[companiaa, setCampaniaa] = useState({
     idd: "",
@@ -41,10 +41,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
   }; 
 
   const crear = async () => {
-    
     cerrar();
-    
-
     url = (await getUrlServer()) + "/mercadeo/api/campania/";
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
@@ -59,16 +56,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
       fecha_Final: companiaa.fechaFinall,
       estado: "A",
     };
-
     const response = await axios.post(url, campaniaJson, { headers });
-    
     console.log(response);
-   
   };
 
   const actualizar = async () => {
-
-    console.log("no me la muestra")
     id = id.replace(/-/g, "");
     cerrar();
     url = (await getUrlServer()) + `/mercadeo/api/campania/${id}/`;
@@ -87,13 +79,11 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
     };
     const response = await axios.put(url, campaniaJson, { headers });
     console.log(response);
-     //Apenas se edite me debe mostrar la data!
   };
 
   //Metodo para pedir una campania
   const dameCampania = async (idC) =>{
     tokenUsuario = await getUserSesion("token");
-
     const url = await getUrlServer();
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
@@ -122,39 +112,6 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
   const refrescarFormularios = () =>{
     document.getElementById("formulario").reset();    
   }
-
-  // Se pondran los valores a actualizar en los campos
-  //Cada que ocurre un cambio se ejecuta
-  useEffect(() => {
-    // if (opcion == "Actualizar") {
-
-      // setCampaniaa({
-      //    idd: info.id,
-      //    campaniaa: info.campania,
-      //    descripcionn: info.descripcion,
-      //    fechaIniciall: info.fechaInicial,
-      //    fechaFinall: info.fechaFinal
-      //  })
-
-
-      // companiaa.idd = info.id
-      // companiaa.campaniaa = info.campania
-      // companiaa.descripcionn = info.descripcionn
-      // companiaa.fechaIniciall = info.fechaInicial
-      // companiaa.fechaFinall = info.fechaFinal
-    
-      // setIdc(info.id)
-      // setCampania(info.campania);
-      // setDescripcion(info.descripcion)
-      // setfechaInicial(info.fechaInicial);
-      // setfechaFinal(info.fechaFinal);     
-    // }
-
-    //Metodo que me trae la informacion del producto seleccionado
-    //getCampaniaSelect()
-    
-    
-  });
 
   //Funcionando
   const [idd, setIdd] = useState("")
@@ -186,20 +143,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
      
   }
 
-  //Quiero que cuando ocurra un cambio en la variable id se ejecute el metodo
+  //Cuando se modifique la variable id se ejecute este metodo
   useEffect(() =>{
-
-    //Codigo para el llamado de objetos uno por uno
-    // id = id.replace(/-/g, "");
-    // getCampaniaaSelect(id) 
-    //Codigo para el llamado de objetos uno por uno
-
-
-    //Cuando ocurra un cambio en el id quiero que me recorra todos los datos, me lo 
-    //encuentre, y se modifique el metodo setCampaniaa()
-    console.log("Informacion")
-    //Ya que me llega la data voy a recorrer los objetos hasta que encuentre el id
-
     data.forEach(p =>{
        if(id == p.id_Campania){
           console.log(`id que llega ${id}, id campania ${p.id_Campania}`)
@@ -212,20 +157,12 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
           })
        }
     })
-    
-
   }, [id])
 
-
   //Segunda opcion de la data.
-
-
   //Simplemente llamo todos los datos y los guardo, despues, se pasa el id, y con ese
   //id saco el dato que necesito, eso es todo.
-
   //Pedimos toda la data
-  const[data, setData] = useState([]);
-
   const getData = async () => {
     tokenUsuario = await getUserSesion("token");
     const url = await getUrlServer();
@@ -244,8 +181,8 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
       });
   };
 
+  //Solo se ejecutara una vez, quiere que me traiga toda la data
   useEffect(() =>{
-    console.log("se pidio la dataaa ")
     getData()
   }, [])
 

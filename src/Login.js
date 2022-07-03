@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
-import { Redirect, Route, useHistory} from 'react-router-dom'
-import {routes} from './routes'
-import { withRouter, Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import '../src/css/login.css'
-import axios from 'axios'
-import { render } from 'react-dom'
-import { useLocation } from 'react-router-dom';
 
 import { getToken,  setUserSesion } from 'src/GeneralsFunctions.js'
 
@@ -17,28 +12,21 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow,
-  
-  CAlert,
-  CProgress
+  CRow
   
 } from '@coreui/react'
+
 import { Ingreso } from './views/base/alertas/Ingreso';
 
 const Login = () => {
-
   /*Datos
     User: 227282
     pass: R@f1t4
   */  
-
-  //Si no pude ingresar poner alerta de contraseña incorrecta!
-
   const [username, setUsuario] = useState('')
   const [password, setClave] = useState('')
   const [error, guardarError] = useState(false); //Nos indica que hubo un error
@@ -65,9 +53,7 @@ const Login = () => {
       if (token) {
         setUserSesion("isLogged", true)
         setUserSesion("token", token)
-
         guardarError(false)
-
         history.push("/dashboard")
       } else {
         guardarError(false)
@@ -80,7 +66,6 @@ const Login = () => {
       guardarError(true);
     }
   }
-
 
   return (
     <div className="c-app  flex-row align-items-center bg-image" >
@@ -134,8 +119,6 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-
   )
 }
-
 export default Login
