@@ -13,7 +13,7 @@ import {
 } from "@coreui/react";
 
 
-export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect }) => {
+export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect,  d }) => {
 
   //En info ya me llega la informacion como objeto
   let url;
@@ -79,6 +79,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
     };
     const response = await axios.put(url, campaniaJson, { headers });
     console.log(response);
+ 
   };
 
   //Metodo para pedir una campania
@@ -103,9 +104,9 @@ export const SideBar = ({ sideBar, opcion, cerrar, id, info,no,getCampaniaSelect
     if (opcion == "Agregar") {
       crear();
     } else {
-      actualizar();
-      console.log(companiaa);
+      actualizar();    
     }
+    d();
   };
 
   //Me deja los valores por defecto

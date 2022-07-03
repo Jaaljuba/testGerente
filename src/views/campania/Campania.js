@@ -59,7 +59,7 @@ const Campania = () => {
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
 
-    refrescarFormularios() //editado
+    
   };
 
   const toggle = () => {
@@ -111,6 +111,7 @@ const Campania = () => {
         setData(res.data.results);
         console.log(data);
       });
+      
   };
 
   const toggleOpciones = () => {  
@@ -156,18 +157,21 @@ const Campania = () => {
     validarSesion();
   }, []);
 
-  const refrescarFormularios = () =>{
-    console.log("entro")
-    console.log(document.getElementById("formulario"))
-    document.getElementById("formulario").reset();    
+  const refresh = () =>{
+    
+    document.location.reload();
+    alert("holis")
+    
   }
 
+  
   return (
     <div className="side">
       <Eliminar
         eliminar={eliminar}
         toggleElimnar={toggleElimnar}
         eliminarCampania={eliminarCampania}
+        refresh={refresh}
       />
       <SideBar
         sideBar={sideBar}
@@ -177,6 +181,8 @@ const Campania = () => {
         info={info}
         no = {campaniaInfo.id}
         getCampaniaSelect={getCampaniaSelect}
+        c={getData}
+        d={refresh}
       />
       <CRow xl={12} className="d-flex justify-content-center">
         <CCol xl={7} className="">
@@ -279,7 +285,8 @@ const Campania = () => {
                               campaniaInfo.fechaInicial =item.fecha_Inicial;
                               campaniaInfo.fechaFinal = item.fecha_Final;
                               toggleOpciones(); 
-                              setIdk(item.id_Campania)
+                              setIdk(item.id_Campania);
+                              
                             }
                           }
                         ></i>

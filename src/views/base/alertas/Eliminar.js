@@ -15,14 +15,14 @@ export const Eliminar = (props) => {
         <CButton
           color="success"
           className="mr-2 si"
-          onClick={() => {props.eliminarCampania(); props.toggleElimnar()}}
+          onClick={() => {props.eliminarCampania(); props.toggleElimnar(); props.refresh()}}
         >
           Si
         </CButton>
         <CButton
           color="danger"
           className="ml-2 no"
-          onClick={() => props.toggleElimnar()}
+          onClick={() => {props.toggleElimnar()}}
         >
           No
         </CButton>
