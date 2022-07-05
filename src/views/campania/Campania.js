@@ -24,14 +24,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Campania = () => {
   //Metodo constructor de las campañas. Con esto le pasamos los datos a editar.
-
   const [data, setData] = useState([]);
   const [opcion, setOpcion] = useState([]);
   const [eliminar, setEliminar] = useState(false); //Nos guarda si el usario desea eliminar o no
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
   const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
-
 
   const [info, setInfo] = useState(null);
   const[idk, setIdk] = useState("");
@@ -58,15 +56,12 @@ const Campania = () => {
   const toggleSideBar = (opcion) => {
     setSidebar((prevState) => !prevState);
     setOpcion(opcion);
-
-    
   };
 
   const toggle = () => {
     setSidebar((prevState) => !prevState);
   };
 
- 
   // Nos muestra los campos que se van a mostrar en la tabla
   const campos = [
     {
@@ -97,7 +92,12 @@ const Campania = () => {
   };
 
   const getData = async () => {
+
+    
     const url = await getUrlServer();
+    
+    console.log("token del usuario: " + tokenUsuario)
+
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
@@ -109,9 +109,9 @@ const Campania = () => {
         console.log(res);
         console.log(res.data.results);
         setData(res.data.results);
+        console.log("Data por la data: ")
         console.log(data);
       });
-      
   };
 
   const toggleOpciones = () => {  
@@ -122,6 +122,7 @@ const Campania = () => {
 
   const eliminarCampania = async () => {
     let idC = idCampania.replace(/-/g, "");
+
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
     tokenUsuario = await getUserSesion("token");
     console.log(`Token -> ${tokenUsuario}`);
@@ -157,14 +158,12 @@ const Campania = () => {
     validarSesion();
   }, []);
 
+
+
   const refresh = () =>{
-    
-    document.location.reload();
-    alert("holis")
-    
+    //Refrescar los datos
   }
 
-  
   return (
     <div className="side">
       <Eliminar
@@ -178,14 +177,9 @@ const Campania = () => {
         opcion={opcion}
         cerrar={toggle}
         id={idCampania}
-        info={info}
-        no = {campaniaInfo.id}
-        getCampaniaSelect={getCampaniaSelect}
-        c={getData}
-        d={refresh}
       />
       <CRow xl={12} className="d-flex justify-content-center">
-        <CCol xl={7} className="">
+        <CCol xl={11} xxl={8} className="">
           <CCard>
             <CCardHeader>
               <h3>Campañas</h3>
@@ -297,21 +291,15 @@ const Campania = () => {
                               campaniaInfo.fechaFinal = item.fecha_Final;
                               toggleOpciones(); 
                               setIdk(item.id_Campania);
-                              
                             }
                           }
                         ></i>
                       </div>
                       
                     </td>
-
                   ),
-                  
                 }}
-                
               />
-              
-              
             </CCardBody>
           </CCard>
         </CCol>

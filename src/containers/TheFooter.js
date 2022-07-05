@@ -1,9 +1,11 @@
 import React from 'react'
 import { CFooter } from '@coreui/react'
 
+import "../css/campania.css"
+
 const TheFooter = () => {
   return (
-    <CFooter fixed={false}>
+    <CFooter fixed={false} className="footer">
       <div>
         <a href="https://coreui.io" target="_blank" rel="noopener noreferrer">CoreUI</a>
         <span className="ml-1">&copy; 2020 creativeLabs.</span>

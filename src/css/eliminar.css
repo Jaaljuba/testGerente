@@ -1,4 +1,4 @@
-.eliminar{
+.eliminar {
     position: absolute;
     margin: 50px;
     z-index: 3;
@@ -9,28 +9,31 @@
     border-radius: 5px;
     background-color: white;
     transition: all 0.5s ease-out;
-    box-shadow: -5px 5px 5px #999; 
-    left: 0; 
-    right: 0; 
+    box-shadow: -5px 5px 5px #c0c0c0;
+    
+
     top: 40%;
-    margin-left: auto; 
-    margin-right: auto;
-  
+
+
+   left:  0;
+   right: 0;
+   
+
 }
 
-.eliminar-close{
+.eliminar-close {
     position: absolute;
     visibility: hidden;
 }
 
-.titulo_eliminar{
+.titulo_eliminar {
     margin-bottom: 15px;
 }
 
-.si{
+.si {
     width: 50%;
 }
 
-.no{
+.no {
     width: 50%;
 }
