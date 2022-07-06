@@ -1,11 +1,9 @@
 import React from "react";
 import { CButton } from "@coreui/react";
 
-import "../../../css/eliminar.css";
+import "../../css/eliminar.css";
 
 export const Eliminar = (props) => {
-
-  
   return (
     <div className={props.eliminar == true ? "eliminar" : "eliminar-close"}>
       <h5 className="titulo_eliminar">
@@ -14,14 +12,14 @@ export const Eliminar = (props) => {
       <div className="d-flex justify-content-center">
         <CButton
           color="success"
-          className="mr-2 si"
+          className="mr-2"
           onClick={() => {props.eliminarCampania(); props.toggleElimnar();}}
         >
           Si
         </CButton>
         <CButton
           color="danger"
-          className="ml-2 no"
+          className="ml-2"
           onClick={() => {props.toggleElimnar()}}
         >
           No

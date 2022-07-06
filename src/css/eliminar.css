@@ -8,22 +8,32 @@
     width: 30%;
     border-radius: 5px;
     background-color: white;
-    transition: all 0.5s ease-out;
+    transition: all 0.1s ease-out;
     box-shadow: -5px 5px 5px #c0c0c0;
-    
-
     top: 40%;
-
-
-   left:  0;
-   right: 0;
-   
-
+    left:  0;
+    right: 0;
+    margin-left: 40%;
 }
 
 .eliminar-close {
     position: absolute;
     visibility: hidden;
+    position: absolute;
+    margin: 50px;
+    z-index: 3;
+    text-align: center;
+    padding: 1%;
+    margin: 0 auto;
+    width: 30%;
+    border-radius: 5px;
+    background-color: white;
+    transition: all 0.1s ease-out;
+    box-shadow: -5px 5px 5px #c0c0c0;
+    top: 40%;
+    left:  0;
+    right: 0;
+    margin-left: 40%;
 }
 
 .titulo_eliminar {
@@ -36,4 +46,15 @@
 
 .no {
     width: 50%;
+}
+
+@media (max-width: 1280px) {
+    .eliminar{
+        margin-left: 45%;
+       
+    }
+
+    .eliminar-close{
+        margin-left: 45%;
+    }
 }

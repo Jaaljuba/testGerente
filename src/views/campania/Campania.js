@@ -5,9 +5,9 @@ import axios from "axios";
 import moment from "moment";
 
 import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
-import { SideBar } from "../../../src/views/base/navs/SideBar.js";
-import { Options } from "../../../src/views/base/options/Option.js";
-import { Eliminar } from "../../../src/views/base/alertas/Eliminar.js";
+import { SideBar } from "../components/RightSideBar";
+import { MenuOptionsTable} from "../components/MenuOptionsTable";
+import { Eliminar } from "../components/Eliminar";
 
 import {
   CButton,
@@ -29,20 +29,18 @@ const Campania = () => {
   const [eliminar, setEliminar] = useState(false); //Nos guarda si el usario desea eliminar o no
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
-  const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
 
-  const [info, setInfo] = useState(null);
-  const[idk, setIdk] = useState("");
+  const [idCampania, setIdCampania] = useState("preuba"); //Se guarda el id de la campaña seleccionada
 
   //Objeto campania a editar
-  let campaniaInfo = {
-    id: "",
-    campania: "",
-    descripcion: "",
-    fechaInicial: "",
-    fechaFinal: "",
-    estado: "",
-  };
+  // let campaniaInfo = {
+  //   id: "",
+  //   campania: "",
+  //   descripcion: "",
+  //   fechaInicial: "",
+  //   fechaFinal: "",
+  //   estado: "",
+  // };
 
   const history = useHistory(); //Nos sirve para redireccionar
 
@@ -60,6 +58,10 @@ const Campania = () => {
 
   const toggle = () => {
     setSidebar((prevState) => !prevState);
+  };
+
+  const toggleOpciones = () => { 
+    setOpciones((prevState) => !prevState);
   };
 
   // Nos muestra los campos que se van a mostrar en la tabla
@@ -80,8 +82,10 @@ const Campania = () => {
   const validarSesion = async () => {
     isLogged = await getUserSesion("isLogged");
     tokenUsuario = await getUserSesion("token");
+
     console.log(`isLogged ESM-> ${isLogged}`);
     console.log(`Token -> ${tokenUsuario}`);
+    
     if (isLogged) {
       getData();
     } else {
@@ -92,12 +96,8 @@ const Campania = () => {
   };
 
   const getData = async () => {
-
-    
     const url = await getUrlServer();
-    
     console.log("token del usuario: " + tokenUsuario)
-
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
@@ -114,55 +114,50 @@ const Campania = () => {
       });
   };
 
-  const toggleOpciones = () => {  
-    setIdCampania(campaniaInfo.id);
-    setOpciones((prevState) => !prevState);  
-    setInfo(campaniaInfo) 
-  };
-
   const eliminarCampania = async () => {
     let idC = idCampania.replace(/-/g, "");
-
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
+
     tokenUsuario = await getUserSesion("token");
+
     console.log(`Token -> ${tokenUsuario}`);
+
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
     const response = await axios.delete(url, { headers });
+
     console.log("Borrar: " + url);
     console.log(response);
   };
-
-  //Creamos el metod pedir info de un objeto y justo cuando le demos click en los 3 punto
-  //le enviamos la informacion.
-  const getCampaniaSelect = async () =>{
-    let idkk = idk.replace(/-/g, "");
-    tokenUsuario = await getUserSesion("token");
-    const url = await getUrlServer();
-    const headers = {
-      Authorization: `Bearer ${tokenUsuario}`,
-      "Content-Type": "application/json",
-    };
-    axios
-      .get(`${url}/mercadeo/api/campania/${idkk}/`, { headers })
-      .then((res) => {
-        console.log("Nos muestra la data de la campaña seleccionada 7/1");
-        console.log(res);       
-      });
-  }
 
   // Antes de mostar datos se validara la sesion
   useEffect(() => {
     validarSesion();
   }, []);
 
-
-
   const refresh = () =>{
     //Refrescar los datos
   }
+
+  //Se guarda el id que seleccionamos al presionar los 3 puntos.
+  //Con este comprobamos cual elemento option se debe abrir.
+  const [idSelect, setIdSelect] = useState("");
+
+  // Me va a guardar el valor si presiono o no presiono.
+  // const [presiono, setPresion] = useState("")
+
+  // Recibe los datos de la campania escogia en options y los guarda en campaniaInfo 
+  // const recibeCampaniaEditar = (id, nombre, descripcion, fechaInicial, fechaFinal) =>{
+  //   campaniaInfo.id = id;
+  //   campaniaInfo.campania = nombre;
+  //   campaniaInfo.descripcion = descripcion;
+  //   campaniaInfo.fechaInicial = fechaInicial;
+  //   campaniaInfo.fechaFinal = fechaFinal;
+  // }
+
+  // let id_Seleccionado = "";
 
   return (
     <div className="side">
@@ -264,38 +259,51 @@ const Campania = () => {
                   ),
                   opciones: (item) => (
                     <td className="">
-                      <Options
+                      <MenuOptionsTable
                         //Funcionalidad para abrir o cerrar componente
                         //me toma el objeto que le demos click en los
                         //3 putnos
-                        abrirOptions={
-                          item.id_Campania == idCampania && opciones == true
+                        isOpen = {true}
+                        Options={[
+                          {
+                            'Name': 'Ver',
+                            'Icon': 'bi bi-eye',
+                            'Action': 'editarRegistro',
+                            'Options': item.id_Campania
+                          },
+                          {
+                            'Name': 'Cambiar',
+                            'Icon': 'bi bi-pencil',
+                            'Action': 'editarRegistro',
+                            'Options': item.id_Campania
+                          },
+                          {
+                            'Name': 'Borrar',
+                            'Icon': 'bi bi-trash',
+                            'Action': 'editarRegistro',
+                            'Options': item.id_Campania
+                          }
+                        ]}
+
+                          abrirOptions={
+                          item.id_Campania == idSelect && opciones == true
                             ? true
                             : false
                         }
-                        id={item.idCampania}
-                        handleToggle={toggleSideBar}
-                        eliminarCampania={eliminarCampania}
-                        toggleEliminar={toggleElimnar}
                       />
                       <div className="mr-2 puntos">
                         <i
                           class="bi bi-three-dots"
-                          onClick={() =>
-                            { 
-                              // se pasa la info mediante un objeto
-                              campaniaInfo.id = item.id_Campania;
-                              campaniaInfo.campania = item.nombre_Campania;
-                              campaniaInfo.descripcion =item.descripcion;
-                              campaniaInfo.fechaInicial =item.fecha_Inicial;
-                              campaniaInfo.fechaFinal = item.fecha_Final;
-                              toggleOpciones(); 
-                              setIdk(item.id_Campania);
+                          onClick={() => {
+                              //Se le pasa el id para saber cual se debe abrir
+                              setIdSelect(item.id_Campania);
+
+                              // toggleOpciones();
+                              setOpciones((prevState) => !prevState);
                             }
                           }
                         ></i>
                       </div>
-                      
                     </td>
                   ),
                 }}

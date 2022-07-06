@@ -1,40 +1,24 @@
-.puntos{
-   text-align: center;
+.puntos {
+    text-align: center;
 }
 
-.bi-three-dots{
+.bi-three-dots {
     display: block;
     margin: 0 auto;
-    
-}
-
-.gearD{
-    position: absolute;
-    margin-left: 415px;
-    margin-top: 5px;
-    font-size: 13px;
-}
-
-.bi-three-dots{
-
-    cursor: pointer;
-}
-
-.gearD:hover{
     cursor: pointer;
 }
 
 
 /* opciones */
-
-.opciones{
+.opciones {
     visibility: hidden;
     position: absolute;
-   
-   
+    width: 90px;
+    height: 110px;
+    float: right;
 }
 
-.opciones--open{
+.opciones--open {
     z-index: 2;
     position: absolute;
     float: right;
@@ -47,32 +31,28 @@
     padding-top: 5px;
     padding-left: 5px;
     border-radius: 5px;
-    transition: all 0.5s ease-out;
-    box-shadow: -5px 5px 8px #c0c0c0;   
+    transition: all 0.1s ease-out;
+    box-shadow: -5px 5px 8px #c0c0c0;
 }
 
-.opciones h5{
+.opciones h5 {
     margin-left: 1rem;
     text-align: left;
 }
 
-.opt{
+.opt {
     cursor: pointer;
 }
 
-.side{
-   
+.side {
     width: 100%;
-   
 }
 
-.descripcion_campania{
+.descripcion_campania {
     width: 50%;
 }
 
 /* Debe estar arriba que el sidebar */
-.footer{
+.footer {
     z-index: 5;
 }
-
-

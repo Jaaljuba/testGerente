@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getUrlServer, getUserSesion } from "src/GeneralsFunctions";
 import axios from "axios";
 
-import "../../../../src/css/sideBar.css";
+import "../../css/sideBar.css";
 
 import {
   CButton,
@@ -81,7 +81,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
   //Metodo para identificar que operacion se va a ejecutar
   //Se esta ejecutando para agregar y actualizar correctamente
   const ejecutar = async () => {
-    if (opcion == "Agregar") {
+    if (opcion === "Agregar") {
       crear();
     } else {
       actualizar();  
@@ -121,6 +121,7 @@ export const SideBar = ({ sideBar, opcion, cerrar, id }) => {
   }
 
   //Cuando se modifique la variable id se ejecute este metodo
+  //y el id se va a modificar cuando se le de click en editar!
   useEffect(() =>{
     getCampaniaSelect(id)
   }, [id])

@@ -107,7 +107,6 @@ const Tables = () => {
                       </CBadge>
                     </td>
                   )
-
               }}
             />
             </CCardBody>
@@ -135,13 +134,11 @@ const Tables = () => {
                       </CBadge>
                     </td>
                   )
-
               }}
             />
             </CCardBody>
           </CCard>
         </CCol>
-
       </CRow>
 
       <CRow>

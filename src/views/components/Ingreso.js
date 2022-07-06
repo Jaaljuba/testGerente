@@ -1,7 +1,7 @@
 import React from "react";
 import { CButton } from "@coreui/react";
 
-import '../../../css/ingreso.css'
+import '../../css/ingreso.css'
 
 export const Ingreso = (props) => { 
     

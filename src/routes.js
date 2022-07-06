@@ -3,7 +3,9 @@ import React from 'react';
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
-const Campania = React.lazy(() => import ('./views/campania/Campania'));
+
+const Campania = React.lazy(() => import ('../src/views/campania/Campania'));
+
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/base/cards/Cards'));
 const Carousels = React.lazy(() => import('./views/base/carousels/Carousels'));

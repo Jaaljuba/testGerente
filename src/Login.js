@@ -17,11 +17,9 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CRow
-  
 } from '@coreui/react'
 
-import { Ingreso } from './views/base/alertas/Ingreso';
-
+import { Ingreso } from './views/components/Ingreso';
 const Login = () => {
   /*Datos
     User: 227282
@@ -39,13 +37,11 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-
     try {
       let user = {                         
         username,
         password
       }
-
       const { token } = await getToken(user)
 
       console.log(`Token en Login ${token}`);

@@ -17,9 +17,7 @@
 }
 
 .sideBar--open{
-    
     transform: translateX(6%);
-    
 }
 
 .sideBar h4{
@@ -48,7 +46,9 @@ select{
     
     .sideBar{
          max-height: 500px;
+         height: 500px;
          overflow-y: scroll;
+         background-color: white
     }
 
 }
