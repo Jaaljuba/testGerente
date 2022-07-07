@@ -9,31 +9,7 @@
 }
 
 
-/* opciones */
-.opciones {
-    visibility: hidden;
-    position: absolute;
-    width: 90px;
-    height: 110px;
-    float: right;
-}
 
-.opciones--open {
-    z-index: 2;
-    position: absolute;
-    float: right;
-    width: 90px;
-    height: 110px;
-    margin-top: 20px;
-    right: 20px;
-    background-color: white;
-    text-align: left;
-    padding-top: 5px;
-    padding-left: 5px;
-    border-radius: 5px;
-    transition: all 0.1s ease-out;
-    box-shadow: -5px 5px 8px #c0c0c0;
-}
 
 .opciones h5 {
     margin-left: 1rem;

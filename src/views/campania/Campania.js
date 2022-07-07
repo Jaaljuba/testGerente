@@ -5,8 +5,8 @@ import axios from "axios";
 import moment from "moment";
 
 import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
-import { SideBar } from "../components/RightSideBar";
-import { MenuOptionsTable} from "../components/MenuOptionsTable";
+import { RightSideBar } from "../components/RightSideBar";
+import { MenuOptionsTable } from "../components/MenuOptionsTable";
 import { Eliminar } from "../components/Eliminar";
 
 import {
@@ -17,6 +17,11 @@ import {
   CCol,
   CDataTable,
   CRow,
+  CDropdown,
+  CDropdDownToggle,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem
 } from "@coreui/react";
 
 import "../../css/campania.css";
@@ -30,37 +35,26 @@ const Campania = () => {
   const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
   const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
 
-  const [idCampania, setIdCampania] = useState("preuba"); //Se guarda el id de la campaña seleccionada
-
-  //Objeto campania a editar
-  // let campaniaInfo = {
-  //   id: "",
-  //   campania: "",
-  //   descripcion: "",
-  //   fechaInicial: "",
-  //   fechaFinal: "",
-  //   estado: "",
-  // };
-
+  const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
   const history = useHistory(); //Nos sirve para redireccionar
 
   var tokenUsuario = null;
   var isLogged = false;
 
-  const toggleElimnar = () => {
-    setEliminar((prevState) => !prevState);
+  const fnCambiar = (id) => {
+    setSidebar((prevState) => !prevState);
+    setOpcion("Actualizar");
   };
 
-  const toggleSideBar = (opcion) => {
-    setSidebar((prevState) => !prevState);
-    setOpcion(opcion);
+  const toggleElimnar = () => {
+    setEliminar((prevState) => !prevState);
   };
 
   const toggle = () => {
     setSidebar((prevState) => !prevState);
   };
 
-  const toggleOpciones = () => { 
+  const toggleOpciones = () => {
     setOpciones((prevState) => !prevState);
   };
 
@@ -85,7 +79,7 @@ const Campania = () => {
 
     console.log(`isLogged ESM-> ${isLogged}`);
     console.log(`Token -> ${tokenUsuario}`);
-    
+
     if (isLogged) {
       getData();
     } else {
@@ -137,27 +131,90 @@ const Campania = () => {
     validarSesion();
   }, []);
 
-  const refresh = () =>{
+  const refresh = () => {
     //Refrescar los datos
   }
 
-  //Se guarda el id que seleccionamos al presionar los 3 puntos.
-  //Con este comprobamos cual elemento option se debe abrir.
-  const [idSelect, setIdSelect] = useState("");
 
-  // Me va a guardar el valor si presiono o no presiono.
-  // const [presiono, setPresion] = useState("")
+//   const [campania, setCampania] = useState({
+//     id: "",
+//     campania: "",
+//     descripcion: "",
+//     fechaInicial: "",
+//     fechaFinal: ""
+//  })
 
-  // Recibe los datos de la campania escogia en options y los guarda en campaniaInfo 
-  // const recibeCampaniaEditar = (id, nombre, descripcion, fechaInicial, fechaFinal) =>{
-  //   campaniaInfo.id = id;
-  //   campaniaInfo.campania = nombre;
-  //   campaniaInfo.descripcion = descripcion;
-  //   campaniaInfo.fechaInicial = fechaInicial;
-  //   campaniaInfo.fechaFinal = fechaFinal;
-  // }
+  
+  //En el righSidebar se le debe pasar el objeto y de alli se toman las propiedades.
+  const fnAgregar = async (campania) =>{
+    let url = await getUrlServer() + "/mercadeo/api/campania/";
+    let tokenUsuario = await getUserSesion("token");
 
-  // let id_Seleccionado = "";
+    console.log("Entro")
+    console.log(campania)
+
+    console.log(`Token -> ${tokenUsuario}`);
+
+     const headers = {
+       Authorization: `Bearer ${tokenUsuario}`,
+       "Content-Type": "application/json",
+     };
+     const campaniaJson = {
+       nombre_Campania: campania.Campania,
+       descripcion: campania.Descripcion,
+       fecha_Inicial: campania.FechaInicial,
+       fecha_Final: campania.FechaFinal,
+       estado: "A",
+     };
+
+     console.log("campania")
+    console.log(campaniaJson)
+
+     const response = await axios.post(url, campaniaJson, { headers });
+
+     console.log(response);
+  }
+
+  //Se debe tener el id que la persona seleccione
+  const fnUpdate = async (campania) =>{
+    idCampania = idCampania.replace(/-/g, "");
+    let url = await getUrlServer() + `/mercadeo/api/campania/${idCampania}/`;
+    tokenUsuario = await getUserSesion("token");
+    console.log(`Token -> ${tokenUsuario}`);
+    console.log("La urle es " + url)
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    const campaniaJson = {
+      nombre_Campania: campania.campania,
+      descripcion: campania.descripcion,
+      fecha_Inicial: campania.fechaInicial,
+      fecha_Final: campania.fechaFinal,
+      estado: "A",
+    };
+    console.log("campania")
+    console.log(campaniaJson)
+
+
+    const response = await axios.put(url, campaniaJson, { headers });
+    console.log(response);
+
+    // cerrar();
+  }
+  
+  const fnBorrar = async () =>{
+    alert("Borrar")
+  }
+
+  
+
+  let camposs = [
+    
+      "nombre",
+      "desc",
+      
+    ]
 
   return (
     <div className="side">
@@ -167,11 +224,58 @@ const Campania = () => {
         eliminarCampania={eliminarCampania}
         refresh={refresh}
       />
-      <SideBar
-        sideBar={sideBar}
-        opcion={opcion}
-        cerrar={toggle}
-        id={idCampania}
+      <RightSideBar
+        isOpen={true}
+        fields={[
+          {
+            "Label": "Nombre Campaña:",
+            "Name": "Campania",
+            "Field": "campania",
+            "Type": "text",
+            "Placeholder": "Digite el nombre de la campaña",
+            "DefaultValue": null
+          },
+          {
+            "Label": "Descripción:",
+            "Name": "Descripcion",
+            "Field": "descripcion",
+            "Type": "TextArea",
+            "Placeholder": "Digite la descripcion de la campaña",
+            "DefaultValue": null
+          },
+          {
+            "Label": "Fecha Inicial:",
+            "Name": "FechaInicial",
+            "Field": "fecha_Inicial",
+            "Type": "date",
+            "Placeholder": null,
+            "DefaultValue": null
+          },
+          {
+            "Label": "Fecha Final:",
+            "Name": "FechaFinal",
+            "Field": "fecha_Final",
+            "Type": "date",
+            "Placeholder": null,
+            "DefaultValue": null
+          },
+          {
+            "Label": "Estado:",
+            "Field": "estado",
+            "Type": "select",
+            "Placeholder": null,
+            "DefaultValue": null
+          }
+        ]}
+        data={[
+            {
+              "id_Campania": "asdfasdf",
+              "campania": "algo",
+              "descripcion": "esta"
+            }
+        ]}
+        action={"A"}
+        fnSave={fnAgregar}
       />
       <CRow xl={12} className="d-flex justify-content-center">
         <CCol xl={11} xxl={8} className="">
@@ -184,12 +288,14 @@ const Campania = () => {
                 variant="outline"
                 color="success"
                 className="mb-3 open-menu"
-                onClick={(e) => toggleSideBar("Agregar", e)}
+                // ERROR
+                // onClick={(e) => toggleSideBar("Agregar", e)}
               >
                 <i class="bi bi-plus-circle mr-2"></i>
                 Agregar
               </CButton>
               <CDataTable
+
                 id="formulario" //Editado
                 hover
                 striped
@@ -203,11 +309,9 @@ const Campania = () => {
                         <div className="text-left h4 font-weight-bold">
                           {item.nombre_Campania}
                         </div>
-                                               
-                        {/* <div className="descripcion_campania">
-                          {item.descripcion}
-                        </div>   */}
-                      </div>                 
+
+
+                      </div>
                     </td>
                   ),
                   fecha_Inicial: (item) => (
@@ -230,10 +334,10 @@ const Campania = () => {
                       </div>
                     </td>
                   ),
-                  estado: (item) =>(
+                  estado: (item) => (
                     <td>
                       <div className="text-center">
-                          {item.estado}
+                        {item.estado}
                       </div>
                     </td>
                   ),
@@ -259,50 +363,17 @@ const Campania = () => {
                   ),
                   opciones: (item) => (
                     <td className="">
-                      <MenuOptionsTable
-                        //Funcionalidad para abrir o cerrar componente
-                        //me toma el objeto que le demos click en los
-                        //3 putnos
-                        isOpen = {true}
-                        Options={[
-                          {
-                            'Name': 'Ver',
-                            'Icon': 'bi bi-eye',
-                            'Action': 'editarRegistro',
-                            'Options': item.id_Campania
-                          },
-                          {
-                            'Name': 'Cambiar',
-                            'Icon': 'bi bi-pencil',
-                            'Action': 'editarRegistro',
-                            'Options': item.id_Campania
-                          },
-                          {
-                            'Name': 'Borrar',
-                            'Icon': 'bi bi-trash',
-                            'Action': 'editarRegistro',
-                            'Options': item.id_Campania
-                          }
-                        ]}
-
-                          abrirOptions={
-                          item.id_Campania == idSelect && opciones == true
-                            ? true
-                            : false
-                        }
-                      />
+                      
                       <div className="mr-2 puntos">
-                        <i
-                          class="bi bi-three-dots"
-                          onClick={() => {
-                              //Se le pasa el id para saber cual se debe abrir
-                              setIdSelect(item.id_Campania);
-
-                              // toggleOpciones();
-                              setOpciones((prevState) => !prevState);
-                            }
-                          }
-                        ></i>
+                        <CDropdown className="mt-2">
+                          <CDropdownToggle caret={false}>
+                          <i className="bi bi-three-dots" onClick={setIdCampania(item.id_Campania)} />
+                          </CDropdownToggle>
+                          <CDropdownMenu>
+                            <CDropdownItem onClick={() => fnCambiar(item.id_Campania)}> <i className="bi bi-pencil mr-2"/>Cambiar</CDropdownItem>
+                            <CDropdownItem onClick={() => fnBorrar(item.id_Campania) }><i className="bi bi-trash mr-2"></i>Borrar</CDropdownItem>
+                          </CDropdownMenu>
+                        </CDropdown> 
                       </div>
                     </td>
                   ),
