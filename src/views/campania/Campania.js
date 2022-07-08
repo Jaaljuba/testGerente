@@ -3,11 +3,8 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
-
 import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
 import { RightSideBar } from "../components/RightSideBar";
-import { MenuOptionsTable } from "../components/MenuOptionsTable";
-import { Eliminar } from "../components/Eliminar";
 
 import {
   CButton,
@@ -18,7 +15,6 @@ import {
   CDataTable,
   CRow,
   CDropdown,
-  CDropdDownToggle,
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
@@ -34,23 +30,23 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const Campania = () => {
   //Metodo constructor de las campañas. Con esto le pasamos los datos a editar.
   const [data, setData] = useState([]);
-  const [opcion, setOpcion] = useState([]);
-  const [eliminar, setEliminar] = useState(false); //Nos guarda si el usario desea eliminar o no
-  const [sideBar, setSidebar] = useState(false); //Si se muestra el sidebar o no
-  const [opciones, setOpciones] = useState(false); //Si se muestra opciones o no
-
   const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
   const history = useHistory(); //Nos sirve para redireccionar
+  const [isOpen, setOpen] = useState(false)
+  //Valor de la action
+  //A para agregar y U para actualizar
+  const [action, setAction] = useState("")
+  //Data que se va a enviar al sidebar para que se actualice
+  const [dataUpdate, setDataUpdate] = useState(null)
+  //Aca va a estar el modal para borrar
+  const [modal, setModal] = useState(false);
 
-  var tokenUsuario = null;
   var isLogged = false;
+  var tokenUsuario = null;
 
-
-
-  const toggleElimnar = () => {
-    setEliminar((prevState) => !prevState);
-  };
-
+  const toggle = ()=>{
+    setModal(!modal);
+  }
 
   // Nos muestra los campos que se van a mostrar en la tabla campaña
   const campos = [
@@ -59,6 +55,7 @@ const Campania = () => {
       label: "Campaña",
     },
     "fecha_Inicial",
+    "fecha_Final",
     "estado",
     {
       key: "fecha_Actualizacion",
@@ -102,34 +99,10 @@ const Campania = () => {
       });
   };
 
-  const eliminarCampania = async () => {
-    let idC = idCampania.replace(/-/g, "");
-    let url = (await getUrlServer()) + "/mercadeo/api/campania/" + idC + "/"; //Se le agrega el id del usaurio
-
-    tokenUsuario = await getUserSesion("token");
-
-    console.log(`Token -> ${tokenUsuario}`);
-
-    const headers = {
-      Authorization: `Bearer ${tokenUsuario}`,
-      "Content-Type": "application/json",
-    };
-    const response = await axios.delete(url, { headers });
-
-    console.log("Borrar: " + url);
-    console.log(response);
-  };
-
-  // Antes de mostar datos se validara la sesion
-  useEffect(() => {
-    validarSesion();
-  }, []);
-
-
   //En el righSidebar se le debe pasar el objeto y de alli se toman las propiedades.
   const fnAgregar = async (campania) => {
     let url = await getUrlServer() + "/mercadeo/api/campania/";
-    let tokenUsuario = await getUserSesion("token");
+    tokenUsuario = await getUserSesion("token");
 
     console.log("Entro")
 
@@ -142,19 +115,19 @@ const Campania = () => {
       "Content-Type": "application/json",
     };
     const campaniaJson = {
-      nombre_Campania: campania.Campania,
-      descripcion: campania.Descripcion,
-      fecha_Inicial: campania.FechaInicial,
-      fecha_Final: campania.FechaFinal,
-      estado: campania.Estado,
+      nombre_Campania: campania.nombre_Campania,
+      descripcion: campania.descripcion,
+      fecha_Inicial: campania.fecha_Inicial,
+      fecha_Final: campania.fecha_Final,
+      estado: campania.estado,
     };
 
     const response = await axios.post(url, campaniaJson, { headers });
-    //Se debe validar si no ocurrio un error  
 
     console.log(response)
 
     setOpen((value) => !value)
+    getData()
   }
 
 
@@ -169,7 +142,7 @@ const Campania = () => {
     tokenUsuario = await getUserSesion("token");
     
     console.log(`Token -> ${tokenUsuario}`);
-    console.log("La urle es " + url)
+    console.log("La url es " + url)
     
     console.log(campania)
 
@@ -178,22 +151,26 @@ const Campania = () => {
       "Content-Type": "application/json",
     };
     const campaniaJson = {
-      nombre_Campania: campania.Campania,
-      descripcion: campania.Descripcion,
-      fecha_Inicial: campania.FechaInicial,
-      fecha_Final: campania.FechaFinal,
-      estado: campania.Estado,
+      nombre_Campania: campania.nombre_Campania,
+      descripcion: campania.descripcion,
+      fecha_Inicial: campania.fecha_Inicial,
+      fecha_Final: campania.fecha_Final,
+      estado: campania.estado,
     };
-
     const response = await axios.put(url, campaniaJson, { headers });
     console.log(response);
-
     setOpen((value) => !value)
+
+    getData()
+
+    // setDataUpdate(null)
   }
 
   const fnBorrar = async () => {
     let id = idCampania;
+
     console.log("El id es: " + id)
+
     id = id.replace(/-/g, "");
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + id + "/"; //Se le agrega el id del usaurio
 
@@ -201,36 +178,22 @@ const Campania = () => {
     console.log("La url es: " + url)
 
     tokenUsuario = await getUserSesion("token");
-
     console.log(`Token para eliminar -> ${tokenUsuario}`);
-
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
+
     const response = await axios.delete(url, { headers });
 
     console.log("Borrar: " + url);
     console.log(response);
   }
 
-  //Me abrira o cerrara el RightSidebar
-  const [isOpen, setOpen] = useState(false)
-
-  //Valor de la action
-  //A para agregar y U para actualizar
-  const [action, setAction] = useState("")
-
-  //Data que se va a enviar al sidebar para que se actualice
-  const [dataUpdate, setDataUpdate] = useState(null)
-
-  //Aca va a estar el modal para borrar
-  const [modal, setModal] = useState(false);
-
-  const toggle = ()=>{
-    setModal(!modal);
-  }
-
+  // Antes de mostar datos se validara la sesion
+  useEffect(() => {
+    validarSesion();
+  }, []);
   
   return (
     <div className="side">
@@ -251,11 +214,7 @@ const Campania = () => {
           >Cancelar</CButton>
         </CModalFooter>
       </CModal>
-      <Eliminar
-        eliminar={eliminar}
-        toggleElimnar={toggleElimnar}
-        eliminarCampania={eliminarCampania}
-      />
+      
       <RightSideBar
         isOpen={isOpen}
         setOpen={setOpen}
@@ -319,7 +278,7 @@ const Campania = () => {
           }
         ]}
         action={action}
-        dataUpdate={dataUpdate} //Aca se encuentra la data que vamos a actualizar
+        dataUpdate={dataUpdate} 
         fnSave={action == "A" ? fnAgregar : fnUpdate}
       />
       <CRow xl={12} className="d-flex justify-content-center">
@@ -328,7 +287,7 @@ const Campania = () => {
             <CCardHeader>
               <h3>Campañas</h3>
             </CCardHeader>
-            <CCardBody>
+            <CCardBody >
               <CButton
                 variant="outline"
                 color="success"
@@ -405,11 +364,10 @@ const Campania = () => {
                   ),
                   opciones: (item) => (
                     <td className="">
-
                       <div className="mr-2 puntos">
                         <CDropdown className="mt-2">
-                          <CDropdownToggle caret={false} >
-                            <i className="bi bi-three-dots" />
+                          <CDropdownToggle caret={false}>
+                            <i className="bi bi-three-dots"/>
                           </CDropdownToggle>
                           <CDropdownMenu>
                             <CDropdownItem
@@ -418,16 +376,15 @@ const Campania = () => {
                                 setIdCampania(item.id_Campania);
                                 //Aca guardamos toda la data a actualizar
                                 setDataUpdate(
-                                  [
-                                  item.nombre_Campania,
-                                  item.descripcion,
-                                  item.fecha_Inicial,
-                                  item.fecha_Final,
-                                  item.estado,
-                                ]
+                                  {
+                                    "nombre_Campania": item.nombre_Campania,
+                                    "descripcion": item.descripcion,
+                                    "fecha_Inicial": item.fecha_Inicial,
+                                    "fecha_Final": item.fecha_Final,
+                                    "estado": item.estado
+                                  }
                                 )
-                              }
-                              }>
+                              }}>
                               <i className="bi bi-pencil mr-2" />Cambiar
                             </CDropdownItem>
                             <CDropdownItem

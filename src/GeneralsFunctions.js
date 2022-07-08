@@ -33,7 +33,6 @@ export const setUserSesion = async (nameItem, valueItem) =>{
 }
 
 export const getUserSesion = async (nameItem) => {
-    
     return localStorage.getItem(nameItem)
 }
 

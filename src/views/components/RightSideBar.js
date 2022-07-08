@@ -17,28 +17,47 @@ import {
 import {
   CIcon
 } from "@coreui/icons-react"
+import Login from "src/Login";
 
 
 //dataUpdate = "La data que le mandemos al valor que se va a actualizar"
 //Todos los componentes le deben pasar la opcion para cambiar el abierto o el cerrado
 export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSave }) => {
-  const [data, setData] = useState('')
+  console.log('Entro a RightSideBar...');
+
+  const [data, setData] = useState('');
   const valueToData = ({ name, value }) => {
     setData({ ...data, [name]: value });
   };
 
-  useEffect(() => {
-    if (dataUpdate != null) {
-      setData({
-        "Campania": dataUpdate[0],
-        "Descripcion": dataUpdate[1],
-        "FechaInicial": dataUpdate[2],
-        "FechaFinal": dataUpdate[3],
-        "Estado": dataUpdate[4]
-      })
+  console.log({data});
 
+  const setValue = (n, v) => {
+    setData({...data, [n]: v})
+  }
+
+  useEffect(() => {
+    setData('hola')
+    setValue('saludo', 'hola')
+    valueToData({'name':'hola', 'value':1000})
+
+    if (dataUpdate != null) {
+   
+      console.log(`informacion que me llega`)
+      console.log(dataUpdate)
+
+      for (let i in dataUpdate) {
+        console.log(`la clave es ${i} : ${dataUpdate[i]}`);
+        setValue(i, dataUpdate[i])
+      }
+
+      setData(dataUpdate)
+
+      console.log(data['nombre_Campania']);
+
+      console.log({data});
     }
-  }, dataUpdate);
+  }, [dataUpdate]); //Cuando se cambien dataUpdate se ejecuta esto
 
   return (
     <div className={isOpen ? "sideBar sideBar--open" : "sideBar"}>
@@ -54,7 +73,7 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 id={element.Field}
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : dataUpdate[i]}
+                defaultValue={dataUpdate == null ? null : data[element.Field]}
               />
             }
 
@@ -65,17 +84,18 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 className="form-control"
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : dataUpdate[i]}
+                defaultValue={dataUpdate == null ? null : data[element.Field]}
               />
             }
 
-            {element.Type == 'select' &&
+            {/* Se tiene que seleccionar por defecto */}
+            {element.Type == 'select' &&  
               <select
                 name={element.Field}
                 onChange={e => valueToData(e.target)} >
                 <option disabled selected value>Selecciona</option>
                 {element.Options.map(i =>
-                  <option value={i.Value}>{i.Text}</option>
+                <option value={i.Value}>{i.Text}</option>
                 )}
               </select>
             }
