@@ -21,7 +21,11 @@ import {
   CDropdDownToggle,
   CDropdownToggle,
   CDropdownMenu,
-  CDropdownItem
+  CDropdownItem,
+  CModal,
+  CModalHeader,
+  CModalBody,
+  CModalFooter
 } from "@coreui/react";
 
 import "../../css/campania.css";
@@ -41,24 +45,14 @@ const Campania = () => {
   var tokenUsuario = null;
   var isLogged = false;
 
-  const fnCambiar = (id) => {
-    setSidebar((prevState) => !prevState);
-    setOpcion("Actualizar");
-  };
+
 
   const toggleElimnar = () => {
     setEliminar((prevState) => !prevState);
   };
 
-  const toggle = () => {
-    setSidebar((prevState) => !prevState);
-  };
 
-  const toggleOpciones = () => {
-    setOpciones((prevState) => !prevState);
-  };
-
-  // Nos muestra los campos que se van a mostrar en la tabla
+  // Nos muestra los campos que se van a mostrar en la tabla campaña
   const campos = [
     {
       key: "nombre_Campania",
@@ -131,113 +125,157 @@ const Campania = () => {
     validarSesion();
   }, []);
 
-  const refresh = () => {
-    //Refrescar los datos
-  }
 
-
-//   const [campania, setCampania] = useState({
-//     id: "",
-//     campania: "",
-//     descripcion: "",
-//     fechaInicial: "",
-//     fechaFinal: ""
-//  })
-
-  
   //En el righSidebar se le debe pasar el objeto y de alli se toman las propiedades.
-  const fnAgregar = async (campania) =>{
+  const fnAgregar = async (campania) => {
     let url = await getUrlServer() + "/mercadeo/api/campania/";
     let tokenUsuario = await getUserSesion("token");
 
     console.log("Entro")
+
     console.log(campania)
 
     console.log(`Token -> ${tokenUsuario}`);
 
-     const headers = {
-       Authorization: `Bearer ${tokenUsuario}`,
-       "Content-Type": "application/json",
-     };
-     const campaniaJson = {
-       nombre_Campania: campania.Campania,
-       descripcion: campania.Descripcion,
-       fecha_Inicial: campania.FechaInicial,
-       fecha_Final: campania.FechaFinal,
-       estado: "A",
-     };
-
-     console.log("campania")
-    console.log(campaniaJson)
-
-     const response = await axios.post(url, campaniaJson, { headers });
-
-     console.log(response);
-  }
-
-  //Se debe tener el id que la persona seleccione
-  const fnUpdate = async (campania) =>{
-    idCampania = idCampania.replace(/-/g, "");
-    let url = await getUrlServer() + `/mercadeo/api/campania/${idCampania}/`;
-    tokenUsuario = await getUserSesion("token");
-    console.log(`Token -> ${tokenUsuario}`);
-    console.log("La urle es " + url)
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
     const campaniaJson = {
-      nombre_Campania: campania.campania,
-      descripcion: campania.descripcion,
-      fecha_Inicial: campania.fechaInicial,
-      fecha_Final: campania.fechaFinal,
-      estado: "A",
+      nombre_Campania: campania.Campania,
+      descripcion: campania.Descripcion,
+      fecha_Inicial: campania.FechaInicial,
+      fecha_Final: campania.FechaFinal,
+      estado: campania.Estado,
     };
-    console.log("campania")
-    console.log(campaniaJson)
 
+    const response = await axios.post(url, campaniaJson, { headers });
+    //Se debe validar si no ocurrio un error  
+
+    console.log(response)
+
+    setOpen((value) => !value)
+  }
+
+
+  //Se debe tener el id que la persona seleccione
+  const fnUpdate = async (campania) => {
+    let id = idCampania;
+    id = id.replace(/-/g, "");
+
+    console.log("La id seleccionada es: " + id);
+    
+    let url = await getUrlServer() + `/mercadeo/api/campania/${id}/`;
+    tokenUsuario = await getUserSesion("token");
+    
+    console.log(`Token -> ${tokenUsuario}`);
+    console.log("La urle es " + url)
+    
+    console.log(campania)
+
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    const campaniaJson = {
+      nombre_Campania: campania.Campania,
+      descripcion: campania.Descripcion,
+      fecha_Inicial: campania.FechaInicial,
+      fecha_Final: campania.FechaFinal,
+      estado: campania.Estado,
+    };
 
     const response = await axios.put(url, campaniaJson, { headers });
     console.log(response);
 
-    // cerrar();
-  }
-  
-  const fnBorrar = async () =>{
-    alert("Borrar")
+    setOpen((value) => !value)
   }
 
+  const fnBorrar = async () => {
+    let id = idCampania;
+    console.log("El id es: " + id)
+    id = id.replace(/-/g, "");
+    let url = (await getUrlServer()) + "/mercadeo/api/campania/" + id + "/"; //Se le agrega el id del usaurio
+
+    console.log("La id seleccionada es: " + id);
+    console.log("La url es: " + url)
+
+    tokenUsuario = await getUserSesion("token");
+
+    console.log(`Token para eliminar -> ${tokenUsuario}`);
+
+    const headers = {
+      Authorization: `Bearer ${tokenUsuario}`,
+      "Content-Type": "application/json",
+    };
+    const response = await axios.delete(url, { headers });
+
+    console.log("Borrar: " + url);
+    console.log(response);
+  }
+
+  //Me abrira o cerrara el RightSidebar
+  const [isOpen, setOpen] = useState(false)
+
+  //Valor de la action
+  //A para agregar y U para actualizar
+  const [action, setAction] = useState("")
+
+  //Data que se va a enviar al sidebar para que se actualice
+  const [dataUpdate, setDataUpdate] = useState(null)
+
+  //Aca va a estar el modal para borrar
+  const [modal, setModal] = useState(false);
+
+  const toggle = ()=>{
+    setModal(!modal);
+  }
+
   
-
-  let camposs = [
-    
-      "nombre",
-      "desc",
-      
-    ]
-
   return (
     <div className="side">
+      <CModal
+        show={modal}
+        onClose={toggle}
+      >
+        <CModalHeader closeButton>Infomracion</CModalHeader>
+        <CModalBody>
+          ¿Esta seguro de que desea eleminar la campaña?
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="primary" onClick={() => {fnBorrar()}}>Aceptar</CButton>{' '}
+          
+          <CButton
+            color="secondary"
+            onClick={toggle}
+          >Cancelar</CButton>
+        </CModalFooter>
+      </CModal>
       <Eliminar
         eliminar={eliminar}
         toggleElimnar={toggleElimnar}
         eliminarCampania={eliminarCampania}
-        refresh={refresh}
       />
       <RightSideBar
-        isOpen={true}
+        isOpen={isOpen}
+        setOpen={setOpen}
         fields={[
           {
+            "Label": "Prueba de Swicth:",
+            "Field": "campanias",
+            "Type": "switch",
+            "Placeholder": null,
+            "DefaultValue": null
+          },
+          {
             "Label": "Nombre Campaña:",
-            "Name": "Campania",
-            "Field": "campania",
+            "Field": "nombre_Campania",
             "Type": "text",
             "Placeholder": "Digite el nombre de la campaña",
             "DefaultValue": null
           },
           {
             "Label": "Descripción:",
-            "Name": "Descripcion",
             "Field": "descripcion",
             "Type": "TextArea",
             "Placeholder": "Digite la descripcion de la campaña",
@@ -245,7 +283,6 @@ const Campania = () => {
           },
           {
             "Label": "Fecha Inicial:",
-            "Name": "FechaInicial",
             "Field": "fecha_Inicial",
             "Type": "date",
             "Placeholder": null,
@@ -253,29 +290,37 @@ const Campania = () => {
           },
           {
             "Label": "Fecha Final:",
-            "Name": "FechaFinal",
             "Field": "fecha_Final",
             "Type": "date",
             "Placeholder": null,
             "DefaultValue": null
           },
+
           {
             "Label": "Estado:",
             "Field": "estado",
             "Type": "select",
+            "Options": [
+              {
+                "Value":"A",
+                "Text": "Activo"             
+              }, 
+              {
+                "Value":"P",
+                "Text": "Pendiente"  
+              },
+              {
+                "Value": "I",
+                "Text": "Inactivo"
+              }
+            ],
             "Placeholder": null,
-            "DefaultValue": null
+            "DefaultValue": null,
           }
         ]}
-        data={[
-            {
-              "id_Campania": "asdfasdf",
-              "campania": "algo",
-              "descripcion": "esta"
-            }
-        ]}
-        action={"A"}
-        fnSave={fnAgregar}
+        action={action}
+        dataUpdate={dataUpdate} //Aca se encuentra la data que vamos a actualizar
+        fnSave={action == "A" ? fnAgregar : fnUpdate}
       />
       <CRow xl={12} className="d-flex justify-content-center">
         <CCol xl={11} xxl={8} className="">
@@ -288,14 +333,13 @@ const Campania = () => {
                 variant="outline"
                 color="success"
                 className="mb-3 open-menu"
-                // ERROR
-                // onClick={(e) => toggleSideBar("Agregar", e)}
+                onClick={() => { setOpen((value) => !value); setAction("A"); setDataUpdate(null) }}
+              //Se debe cambiar el titulo para la partde del sideBar
               >
                 <i class="bi bi-plus-circle mr-2"></i>
                 Agregar
               </CButton>
               <CDataTable
-
                 id="formulario" //Editado
                 hover
                 striped
@@ -309,8 +353,6 @@ const Campania = () => {
                         <div className="text-left h4 font-weight-bold">
                           {item.nombre_Campania}
                         </div>
-
-
                       </div>
                     </td>
                   ),
@@ -363,17 +405,35 @@ const Campania = () => {
                   ),
                   opciones: (item) => (
                     <td className="">
-                      
+
                       <div className="mr-2 puntos">
                         <CDropdown className="mt-2">
-                          <CDropdownToggle caret={false}>
-                          <i className="bi bi-three-dots" onClick={setIdCampania(item.id_Campania)} />
+                          <CDropdownToggle caret={false} >
+                            <i className="bi bi-three-dots" />
                           </CDropdownToggle>
                           <CDropdownMenu>
-                            <CDropdownItem onClick={() => fnCambiar(item.id_Campania)}> <i className="bi bi-pencil mr-2"/>Cambiar</CDropdownItem>
-                            <CDropdownItem onClick={() => fnBorrar(item.id_Campania) }><i className="bi bi-trash mr-2"></i>Borrar</CDropdownItem>
+                            <CDropdownItem
+                              onClick={() => {
+                                setOpen((value) => !value); setAction("U");
+                                setIdCampania(item.id_Campania);
+                                //Aca guardamos toda la data a actualizar
+                                setDataUpdate(
+                                  [
+                                  item.nombre_Campania,
+                                  item.descripcion,
+                                  item.fecha_Inicial,
+                                  item.fecha_Final,
+                                  item.estado,
+                                ]
+                                )
+                              }
+                              }>
+                              <i className="bi bi-pencil mr-2" />Cambiar
+                            </CDropdownItem>
+                            <CDropdownItem
+                              onClick={() => {toggle(); setIdCampania(item.id_Campania)}}><i className="bi bi-trash mr-2"></i>Borrar</CDropdownItem>
                           </CDropdownMenu>
-                        </CDropdown> 
+                        </CDropdown>
                       </div>
                     </td>
                   ),
