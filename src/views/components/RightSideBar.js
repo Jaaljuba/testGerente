@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-import "../../css/sideBar.css";
-
+import { CIcon } from "@coreui/icons-react"
 import {
   CButton,
   CForm,
@@ -10,14 +9,10 @@ import {
   CInput,
   CFormGroup,
   CTextarea,
-  CNavItem,
   CSwitch
 } from "@coreui/react";
 
-import {
-  CIcon
-} from "@coreui/icons-react"
-import Login from "src/Login";
+import "../../css/sideBar.css";
 
 
 //dataUpdate = "La data que le mandemos al valor que se va a actualizar"
@@ -32,24 +27,20 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
 
   console.log({data});
 
-  const setValue = (n, v) => {
-    setData({...data, [n]: v})
-  }
+
 
   useEffect(() => {
-    setData('hola')
-    setValue('saludo', 'hola')
-    valueToData({'name':'hola', 'value':1000})
+   
 
     if (dataUpdate != null) {
-   
+
       console.log(`informacion que me llega`)
       console.log(dataUpdate)
 
-      for (let i in dataUpdate) {
-        console.log(`la clave es ${i} : ${dataUpdate[i]}`);
-        setValue(i, dataUpdate[i])
-      }
+      // for (let i in dataUpdate) {
+      //   console.log(`la clave es ${i} : ${dataUpdate[i]}`);
+      //   setValue(i, dataUpdate[i])
+      // }
 
       setData(dataUpdate)
 
@@ -59,23 +50,31 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
     }
   }, [dataUpdate]); //Cuando se cambien dataUpdate se ejecuta esto
 
+
   return (
     <div className={isOpen ? "sideBar sideBar--open" : "sideBar"}>
       <h4>{action == "A" ? "Agregar" : "Actualizar"}</h4>
       <CForm action="" method="post" id="formGeneric">
-        {fields.map((element, i) => (
-          <CFormGroup key={element.Label}>
+
+        {fields.map((element) => (
+
+          <CFormGroup key={element.Field}>
             <CLabel htmlFor={element.Field}>{element.Label}</CLabel>
-            {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' &&
+            
+
+            {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' && element.Type != "text" &&
               <CInput
+
                 type={element.Type}
                 name={element.Field}
                 id={element.Field}
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : data[element.Field]}
+                defaultValue={dataUpdate == null ? null : dataUpdate[element.Field]}
+                
               />
             }
+           
 
             {element.Type == 'textarea' &&
               <CTextarea
@@ -84,24 +83,25 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 className="form-control"
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : data[element.Field]}
+                defaultValue={dataUpdate == null ? null : dataUpdate[element.Field]}
               />
             }
 
             {/* Se tiene que seleccionar por defecto */}
-            {element.Type == 'select' &&  
+            {element.Type == 'select' &&
               <select
                 name={element.Field}
                 onChange={e => valueToData(e.target)} >
                 <option disabled selected value>Selecciona</option>
                 {element.Options.map(i =>
-                <option value={i.Value}>{i.Text}</option>
+                <option key={i.Value} value={i.Value}>{i.Text}</option>
                 )}
               </select>
             }
 
             {element.Type == 'switch' &&
               <CSwitch
+
                 name={element.Field}
                 color={'primary'}
                 variant='opposite'
@@ -109,6 +109,20 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 onChange={e => valueToData(e.target)}
               />
             }
+
+            {element.Type == 'text' &&
+              <CInput
+
+                type={element.Type}
+                name={element.Field}
+                id={element.Field}
+                placeholder={element.Placeholder}
+                onChange={e => valueToData(e.target)}
+                defaultValue={dataUpdate == null ? null : dataUpdate.nombre_Campania}
+                
+              />
+            }
+
           </CFormGroup>
         ))}
         <div className="d-flex justify-content-center">

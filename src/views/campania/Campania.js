@@ -161,7 +161,7 @@ const Campania = () => {
     console.log(response);
     setOpen((value) => !value)
 
-    getData()
+   getData() 
 
     // setDataUpdate(null)
   }
