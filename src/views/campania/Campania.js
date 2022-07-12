@@ -219,13 +219,13 @@ const Campania = () => {
         isOpen={isOpen}
         setOpen={setOpen}
         fields={[
-          {
-            "Label": "Prueba de Swicth:",
-            "Field": "campanias",
-            "Type": "switch",
-            "Placeholder": null,
-            "DefaultValue": null
-          },
+          // {
+          //   "Label": "Prueba de Swicth:",
+          //   "Field": "campanias",
+          //   "Type": "switch",
+          //   "Placeholder": null,
+          //   "DefaultValue": null
+          // },
           {
             "Label": "Nombre Campaña:",
             "Field": "nombre_Campania",

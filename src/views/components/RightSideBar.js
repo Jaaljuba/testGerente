@@ -18,6 +18,7 @@ import "../../css/sideBar.css";
 //dataUpdate = "La data que le mandemos al valor que se va a actualizar"
 //Todos los componentes le deben pasar la opcion para cambiar el abierto o el cerrado
 export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSave }) => {
+
   console.log('Entro a RightSideBar...');
 
   const [data, setData] = useState('');
@@ -27,10 +28,7 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
 
   console.log({data});
 
-
-
   useEffect(() => {
-   
 
     if (dataUpdate != null) {
 
@@ -44,6 +42,7 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
 
       setData(dataUpdate)
 
+      console.log("Marciano")
       console.log(data['nombre_Campania']);
 
       console.log({data});
@@ -56,26 +55,24 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
       <h4>{action == "A" ? "Agregar" : "Actualizar"}</h4>
       <CForm action="" method="post" id="formGeneric">
 
+     
+
         {fields.map((element) => (
 
-          <CFormGroup key={element.Field}>
+          <CFormGroup key={element.Fi}>
             <CLabel htmlFor={element.Field}>{element.Label}</CLabel>
-            
 
-            {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' && element.Type != "text" &&
+            {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' &&
               <CInput
-
                 type={element.Type}
                 name={element.Field}
                 id={element.Field}
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : dataUpdate[element.Field]}
-                
+                value={dataUpdate == null ? null : data[element.Field]}
               />
             }
            
-
             {element.Type == 'textarea' &&
               <CTextarea
                 type="textarea" //Text area?
@@ -83,7 +80,7 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 className="form-control"
                 placeholder={element.Placeholder}
                 onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : dataUpdate[element.Field]}
+                value={dataUpdate == null ? null : data[element.Field]}
               />
             }
 
@@ -92,9 +89,9 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
               <select
                 name={element.Field}
                 onChange={e => valueToData(e.target)} >
-                <option disabled selected value>Selecciona</option>
+                <option disabled selected={true} value>Selecciona</option>
                 {element.Options.map(i =>
-                <option key={i.Value} value={i.Value}>{i.Text}</option>
+                  <option key={i.Value} value={i.Value} selected={data[element.Field] == i.Value ? true : false}>{i.Text}</option>
                 )}
               </select>
             }
@@ -110,20 +107,9 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
               />
             }
 
-            {element.Type == 'text' &&
-              <CInput
-
-                type={element.Type}
-                name={element.Field}
-                id={element.Field}
-                placeholder={element.Placeholder}
-                onChange={e => valueToData(e.target)}
-                defaultValue={dataUpdate == null ? null : dataUpdate.nombre_Campania}
-                
-              />
-            }
-
+            
           </CFormGroup>
+
         ))}
         <div className="d-flex justify-content-center">
           {/* Se ejecuta es la accion que le mandamos en las props */}
