@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import { getUrlServer, getUserSesion } from "../../../src/GeneralsFunctions";
 import { RightSideBar } from "../components/RightSideBar";
+import { Form } from "../components/Form";
 
 import {
   CButton,
@@ -33,6 +34,8 @@ const Campania = () => {
   const [idCampania, setIdCampania] = useState(""); //Se guarda el id de la campaña seleccionada
   const history = useHistory(); //Nos sirve para redireccionar
   const [isOpen, setOpen] = useState(false)
+
+  const [isOpenForm, setOpenForm] = useState(false)
   //Valor de la action
   //A para agregar y U para actualizar
   const [action, setAction] = useState("")
@@ -188,6 +191,8 @@ const Campania = () => {
 
     console.log("Borrar: " + url);
     console.log(response);
+
+    getData() 
   }
 
   // Antes de mostar datos se validara la sesion
@@ -201,12 +206,12 @@ const Campania = () => {
         show={modal}
         onClose={toggle}
       >
-        <CModalHeader closeButton>Infomracion</CModalHeader>
+        <CModalHeader closeButton>Informacion</CModalHeader>
         <CModalBody>
-          ¿Esta seguro de que desea eleminar la campaña?
+          ¿Esta seguro de que desea eliminar la campaña?
         </CModalBody>
         <CModalFooter>
-          <CButton color="primary" onClick={() => {fnBorrar()}}>Aceptar</CButton>{' '}
+          <CButton color="primary" onClick={() => {fnBorrar(); toggle()}}>Aceptar</CButton>{' '}
           
           <CButton
             color="secondary"
@@ -214,18 +219,125 @@ const Campania = () => {
           >Cancelar</CButton>
         </CModalFooter>
       </CModal>
-      
+
+
+     <Form
+      titulo = "Prueba" 
+      fields={[
+        {
+          "Label": "Nombre Campaña:",
+          "Field": "nombre_Campania",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Descripción:",
+          "Field": "descripcion",
+          "Type": "TextArea",
+          "Placeholder": "Digite la descripcion de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Fecha Inicial:",
+          "Field": "fecha_Inicial",
+          "Type": "date",
+          "Placeholder": null,
+          "DefaultValue": null
+        },
+        {
+          "Label": "Fecha Final:",
+          "Field": "fecha_Final",
+          "Type": "date",
+          "Placeholder": null,
+          "DefaultValue": null
+        },
+        {
+          "Label": "Estado:",
+          "Field": "estado",
+          "Type": "select",
+          "Options": [
+            {
+              "Value":"A",
+              "Text": "Activo"             
+            }, 
+            {
+              "Value":"P",
+              "Text": "Pendiente"  
+            },
+            {
+              "Value": "I",
+              "Text": "Inactivo"
+            }
+          ],
+          "Placeholder": null,
+          "DefaultValue": null,
+        },
+        {
+          "Label": "Prueba de Swicth:",
+          "Field": "campanias",
+          "Type": "switch",
+          "Placeholder": null,
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo2:",
+          "Field": "Campo2",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo3",
+          "Field": "Campo3",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo4",
+          "Field": "Campo4",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo5",
+          "Field": "Campo5",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo6",
+          "Field": "Campo6",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo7",
+          "Field": "Campo7",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+        {
+          "Label": "Campo8",
+          "Field": "Campo8",
+          "Type": "text",
+          "Placeholder": "Digite el nombre de la campaña",
+          "DefaultValue": null
+        },
+      ]}
+      isOpenForm={isOpenForm}
+      setOpenForm={setOpenForm}
+      />
+
       <RightSideBar
         isOpen={isOpen}
         setOpen={setOpen}
         fields={[
-          // {
-          //   "Label": "Prueba de Swicth:",
-          //   "Field": "campanias",
-          //   "Type": "switch",
-          //   "Placeholder": null,
-          //   "DefaultValue": null
-          // },
           {
             "Label": "Nombre Campaña:",
             "Field": "nombre_Campania",
@@ -254,7 +366,6 @@ const Campania = () => {
             "Placeholder": null,
             "DefaultValue": null
           },
-
           {
             "Label": "Estado:",
             "Field": "estado",
@@ -275,7 +386,14 @@ const Campania = () => {
             ],
             "Placeholder": null,
             "DefaultValue": null,
-          }
+          },
+          {
+            "Label": "Prueba de Swicth:",
+            "Field": "campanias",
+            "Type": "switch",
+            "Placeholder": null,
+            "DefaultValue": null
+            }
         ]}
         action={action}
         dataUpdate={dataUpdate} 
@@ -400,6 +518,8 @@ const Campania = () => {
           </CCard>
         </CCol>
       </CRow>
+      {/* boton de prueba borrar */}
+      <button onClick={() =>{setOpenForm((value) => !value)}}>Prueba</button>
     </div>
   );
 };

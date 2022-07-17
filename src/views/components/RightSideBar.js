@@ -14,9 +14,6 @@ import {
 
 import "../../css/sideBar.css";
 
-
-//dataUpdate = "La data que le mandemos al valor que se va a actualizar"
-//Todos los componentes le deben pasar la opcion para cambiar el abierto o el cerrado
 export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSave }) => {
 
   console.log('Entro a RightSideBar...');
@@ -28,6 +25,8 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
 
   console.log({data});
 
+  console.log(`righsidebar ${fields}`);
+
   useEffect(() => {
 
     if (dataUpdate != null) {
@@ -35,31 +34,23 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
       console.log(`informacion que me llega`)
       console.log(dataUpdate)
 
-      // for (let i in dataUpdate) {
-      //   console.log(`la clave es ${i} : ${dataUpdate[i]}`);
-      //   setValue(i, dataUpdate[i])
-      // }
-
       setData(dataUpdate)
 
       console.log("Marciano")
       console.log(data['nombre_Campania']);
 
-      console.log({data});
+      
     }
   }, [dataUpdate]); //Cuando se cambien dataUpdate se ejecuta esto
-
 
   return (
     <div className={isOpen ? "sideBar sideBar--open" : "sideBar"}>
       <h4>{action == "A" ? "Agregar" : "Actualizar"}</h4>
       <CForm action="" method="post" id="formGeneric">
 
-     
-
         {fields.map((element) => (
 
-          <CFormGroup key={element.Fi}>
+          <CFormGroup key={element.Fiel}>
             <CLabel htmlFor={element.Field}>{element.Label}</CLabel>
 
             {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' &&
@@ -72,7 +63,6 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 value={dataUpdate == null ? null : data[element.Field]}
               />
             }
-           
             {element.Type == 'textarea' &&
               <CTextarea
                 type="textarea" //Text area?
@@ -83,8 +73,6 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 value={dataUpdate == null ? null : data[element.Field]}
               />
             }
-
-            {/* Se tiene que seleccionar por defecto */}
             {element.Type == 'select' &&
               <select
                 name={element.Field}
@@ -95,21 +83,18 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
                 )}
               </select>
             }
-
             {element.Type == 'switch' &&
+              <div>
               <CSwitch
-
                 name={element.Field}
                 color={'primary'}
                 variant='opposite'
                 shape='pill'
                 onChange={e => valueToData(e.target)}
               />
+              </div>
             }
-
-            
           </CFormGroup>
-
         ))}
         <div className="d-flex justify-content-center">
           {/* Se ejecuta es la accion que le mandamos en las props */}
