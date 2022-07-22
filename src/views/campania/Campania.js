@@ -229,28 +229,32 @@ const Campania = () => {
           "Field": "nombre_Campania",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "6"
         },
         {
           "Label": "Descripción:",
           "Field": "descripcion",
           "Type": "TextArea",
           "Placeholder": "Digite la descripcion de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Fecha Inicial:",
           "Field": "fecha_Inicial",
           "Type": "date",
           "Placeholder": null,
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Fecha Final:",
           "Field": "fecha_Final",
           "Type": "date",
           "Placeholder": null,
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "4"
         },
         {
           "Label": "Estado:",
@@ -272,62 +276,71 @@ const Campania = () => {
           ],
           "Placeholder": null,
           "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Prueba de Swicth:",
           "Field": "campanias",
           "Type": "switch",
           "Placeholder": null,
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo2:",
           "Field": "Campo2",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo3",
           "Field": "Campo3",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo4",
           "Field": "Campo4",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo5",
           "Field": "Campo5",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo6",
           "Field": "Campo6",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo7",
           "Field": "Campo7",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
         {
           "Label": "Campo8",
           "Field": "Campo8",
           "Type": "text",
           "Placeholder": "Digite el nombre de la campaña",
-          "DefaultValue": null
+          "DefaultValue": null,
+          "tamanio": "1"
         },
       ]}
       isOpenForm={isOpenForm}

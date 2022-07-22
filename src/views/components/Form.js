@@ -16,6 +16,7 @@ import {
 
 
 import "../../css/form.css";
+import Campania from "../campania/Campania";
 
 
 export const Form = ({fields, dataUpdate, titulo, isOpenForm, setOpenForm}) =>{
@@ -37,9 +38,9 @@ export const Form = ({fields, dataUpdate, titulo, isOpenForm, setOpenForm}) =>{
             <h1>{titulo}</h1>
 
             <CForm action="" method="post" id="formGeneric" className={"flex-container"}>
-                
+               
                 {fields.map((element) =>(
-                    <CFormGroup key={element.Fiel} className="group">
+                    <CFormGroup key={element.Fiel} className={'group col-md-' + element.tamanio}  >
                     <CLabel htmlFor={element.Field}>{element.Label}</CLabel>
                     {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' &&
                       <CInput
