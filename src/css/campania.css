@@ -8,9 +8,6 @@
     cursor: pointer;
 }
 
-
-
-
 .opciones h5 {
     margin-left: 1rem;
     text-align: left;
@@ -22,6 +19,8 @@
 
 .side {
     width: 100%;
+    /* cambio brusco */
+    position: relative;
 }
 
 .descripcion_campania {

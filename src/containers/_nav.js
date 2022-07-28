@@ -32,10 +32,34 @@ const _nav =  [
     ]
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Segundo',
-    to: '/theme/typography',
-    icon: 'cil-pencil',
+    _tag: 'CSidebarNavDropdown',
+    name: 'Activos fijos',
+    to: '',
+    icon: 'cil-drop',
+    _children:[
+      {
+        _tag : 'CSidebarNavItem',
+        name: 'Tipos activos fijos',
+        to:'/archivo/tiposactivosfijos',
+        icon: 'cil-drop',
+        
+      },
+      {
+        _tag : 'CSidebarNavItem',
+        name: 'Ubicaciones',
+        to:'/archivo/campanias',
+        icon: 'cil-drop',
+        
+      },
+      {
+        _tag : 'CSidebarNavItem',
+        name: 'Activos fijos',
+        to:'/archivo/campanias',
+        icon: 'cil-drop',
+        
+      },
+
+    ]
   },
   {
     _tag: 'CSidebarNavTitle',

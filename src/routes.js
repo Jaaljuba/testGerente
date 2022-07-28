@@ -5,6 +5,8 @@ const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster')
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
 
 const Campania = React.lazy(() => import ('../src/views/campania/Campania'));
+const TiposActivosFijos = React.lazy(() => import ('./views/tipoActivosFijos/TiposActivosFijos'));
+
 
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/base/cards/Cards'));
@@ -64,6 +66,8 @@ const routes = [
   { path: '/base/tables', name: 'Tables', component: Tables },
   
   { path: '/archivo/campanias', name: 'Campanias', component: Campania },
+  { path: '/archivo/tiposactivosfijos', exact: true, name: 'tiposactivosfijos', component: TiposActivosFijos },
+
 
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
   { path: '/base/tooltips', name: 'Tooltips', component: Tooltips },
@@ -88,7 +92,7 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/campania', exact: true, name: 'campania', component: Campania }
+
 ];
 
 export default routes;

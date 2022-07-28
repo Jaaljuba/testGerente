@@ -39,7 +39,6 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
       console.log("Marciano")
       console.log(data['nombre_Campania']);
 
-      
     }
   }, [dataUpdate]); //Cuando se cambien dataUpdate se ejecuta esto
 
@@ -47,12 +46,9 @@ export const RightSideBar = ({ isOpen, setOpen, fields, action, dataUpdate, fnSa
     <div className={isOpen ? "sideBar sideBar--open" : "sideBar"}>
       <h4>{action == "A" ? "Agregar" : "Actualizar"}</h4>
       <CForm action="" method="post" id="formGeneric">
-
         {fields.map((element) => (
-
           <CFormGroup key={element.Fiel}>
             <CLabel htmlFor={element.Field}>{element.Label}</CLabel>
-
             {element.Type != 'textarea' && element.Type != 'select' && element.Type != 'switch' &&
               <CInput
                 type={element.Type}

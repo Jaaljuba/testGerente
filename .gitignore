@@ -10,6 +10,9 @@ package-lock.json
 # production
 /build
 
+# developer test
+/Temp
+
 # misc
 .eslintcache
 .DS_Store

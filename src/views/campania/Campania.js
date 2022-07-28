@@ -194,12 +194,10 @@ const Campania = () => {
 
     getData() 
   }
-
   // Antes de mostar datos se validara la sesion
   useEffect(() => {
     validarSesion();
   }, []);
-  
   return (
     <div className="side">
       <CModal
@@ -219,8 +217,6 @@ const Campania = () => {
           >Cancelar</CButton>
         </CModalFooter>
       </CModal>
-
-
      <Form
       titulo = "Prueba" 
       fields={[
