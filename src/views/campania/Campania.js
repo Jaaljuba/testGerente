@@ -106,23 +106,16 @@ const Campania = () => {
   const fnAgregar = async (campania) => {
     let url = await getUrlServer() + "/mercadeo/api/campania/";
     tokenUsuario = await getUserSesion("token");
-
     console.log("Entro")
-
     console.log(campania)
-
     console.log(`Token -> ${tokenUsuario}`);
-
     const headers = {
       Authorization: `Bearer ${tokenUsuario}`,
       "Content-Type": "application/json",
     };
     const campaniaJson = {
       nombre_Campania: campania.nombre_Campania,
-      descripcion: campania.descripcion,
-      fecha_Inicial: campania.fecha_Inicial,
-      fecha_Final: campania.fecha_Final,
-      estado: campania.estado,
+     
     };
 
     const response = await axios.post(url, campaniaJson, { headers });
@@ -132,7 +125,6 @@ const Campania = () => {
     setOpen((value) => !value)
     getData()
   }
-
 
   //Se debe tener el id que la persona seleccione
   const fnUpdate = async (campania) => {
@@ -171,9 +163,7 @@ const Campania = () => {
 
   const fnBorrar = async () => {
     let id = idCampania;
-
     console.log("El id es: " + id)
-
     id = id.replace(/-/g, "");
     let url = (await getUrlServer()) + "/mercadeo/api/campania/" + id + "/"; //Se le agrega el id del usaurio
 
@@ -199,7 +189,7 @@ const Campania = () => {
     validarSesion();
   }, []);
   return (
-    <div className="side">
+    <div className="contenedor">
       <CModal
         show={modal}
         onClose={toggle}

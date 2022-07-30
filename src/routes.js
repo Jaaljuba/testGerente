@@ -6,6 +6,8 @@ const Tables = React.lazy(() => import('./views/base/tables/Tables'));
 
 const Campania = React.lazy(() => import ('../src/views/campania/Campania'));
 const TiposActivosFijos = React.lazy(() => import ('./views/tipoActivosFijos/TiposActivosFijos'));
+const Ubicaciones = React.lazy(() => import('./views/ubicaciones/Ubicaciones'))
+const ActivosFijos = React.lazy(() => import('./views/activosFijos/ActivosFijos'))
 
 
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'));
@@ -21,7 +23,6 @@ const Paginations = React.lazy(() => import('./views/base/paginations/Pagnations
 const Popovers = React.lazy(() => import('./views/base/popovers/Popovers'));
 const ProgressBar = React.lazy(() => import('./views/base/progress-bar/ProgressBar'));
 const Switches = React.lazy(() => import('./views/base/switches/Switches'));
-
 const Tabs = React.lazy(() => import('./views/base/tabs/Tabs'));
 const Tooltips = React.lazy(() => import('./views/base/tooltips/Tooltips'));
 const BrandButtons = React.lazy(() => import('./views/buttons/brand-buttons/BrandButtons'));
@@ -67,6 +68,9 @@ const routes = [
   
   { path: '/archivo/campanias', name: 'Campanias', component: Campania },
   { path: '/archivo/tiposactivosfijos', exact: true, name: 'tiposactivosfijos', component: TiposActivosFijos },
+  { path: '/archivo/ubicaciones', exact: true, name: 'ubicaciones', component: Ubicaciones},
+  { path: '/archivo/activosfijos', exact: true, name: 'activosfijos', component: ActivosFijos},
+
 
 
   { path: '/base/tabs', name: 'Tabs', component: Tabs },

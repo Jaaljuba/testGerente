@@ -47,14 +47,14 @@ const _nav =  [
       {
         _tag : 'CSidebarNavItem',
         name: 'Ubicaciones',
-        to:'/archivo/campanias',
+        to:'/archivo/ubicaciones',
         icon: 'cil-drop',
         
       },
       {
         _tag : 'CSidebarNavItem',
         name: 'Activos fijos',
-        to:'/archivo/campanias',
+        to:'/archivo/activosfijos',
         icon: 'cil-drop',
         
       },
